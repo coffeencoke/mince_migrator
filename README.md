@@ -101,3 +101,11 @@ For an evolving explanation for the Temporary module, view [Migrating With Tempo
 4. Update documentation for your added feature
 
 Special Thanks to [@davetron5000](https://github.com/davetron5000) for writing [gli](https://github.com/davetron5000/gli)
+
+# License
+
+Copyright (c) 2013 Matt Simpson
+
+MIT License
+
+View the LICENSE.txt file included in the source
