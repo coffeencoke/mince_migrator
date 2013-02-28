@@ -12,12 +12,19 @@ desc 'Creates a migration'
 arg_name 'Name of migration'
 command :create do |c|
   c.action do |global_options,options,args|
-    puts "create command ran"
+    creator = MinceMigrator::Creator.new(args)
+    if creator.can_create_migration?
+      puts "Migration is being created..."
+      creator.create_migration
+      puts "Migration created."
+    else
+      help_now!(creator.reasons_for_failure)
+    end
   end
 end
 
 desc 'Lists all migrations and their statuses'
-command :list do |c|
+command :list
   c.action do |global_options,options,args|
     puts "list command ran"
   end
@@ -41,7 +48,7 @@ end
 
 desc 'Runs all migrations that have not yet been ran'
 command :run_all do |c|
-  c.action do |global_options,options,args|
+  c.action do
     puts "run_all command ran"
   end
 end
