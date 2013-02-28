@@ -5,15 +5,18 @@ require 'hashy_db'
 Mince::Config.interface = Mince::HashyDb::Interface
 
 describe "The creation of a migration:" do
-  before do
-  end
+  subject { MinceMigrator::Creator.new options }
 
   after do
     Mince::Config.interface.clear
   end
 
   describe "Attempting to create a migration without a name" do
-    it "returns reasons why a migration could not be created"
+    let(:options) { nil }
+
+    it "returns reasons why a migration could not be created" do
+      subject.can_create_migration?.should be_false
+    end
   end
 
   describe "Creating a mince migration with a name" do
