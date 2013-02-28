@@ -20,6 +20,10 @@ describe "The creation of a migration:" do
   end
 
   describe "Creating a mince migration with a name" do
-    it "returns the migration that was created"
+    let(:options) { "Create seeded admin users" }
+
+    it "returns the migration that was created" do
+      subject.can_create_migration?.should be_true
+    end
   end
 end

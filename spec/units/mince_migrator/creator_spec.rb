@@ -6,4 +6,12 @@ describe MinceMigrator::Creator do
       subject.can_create_migration?.should be_false
     end
   end
+
+  context 'when a name is provided' do
+    subject { described_class.new("This migration can do stuff") }
+
+    it 'can create the migration' do
+      subject.can_create_migration?.should be_true
+    end
+  end
 end
