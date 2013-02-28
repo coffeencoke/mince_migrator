@@ -22,11 +22,12 @@ Gem::Specification.new do |s|
   #s.test_files    = %w()
   s.require_paths = ["lib"]
 
-  s.required_ruby_version = '~> 1.9.3'
+  s.required_ruby_version = "~> 1.9.3"
   s.add_dependency "mince", "~> 2.0"
-  s.add_development_dependency('rake', '~> 0.9')
-  s.add_development_dependency('rspec', '~> 2.0')
-  s.add_development_dependency('guard-rspec', '~> 0.6')
+  s.add_development_dependency "gli", '~> 2.5'
+  s.add_development_dependency "rake", '~> 0.9'
+  s.add_development_dependency "rspec", '~> 2.0'
+  s.add_development_dependency "guard-rspec", '~> 0.6'
   s.add_development_dependency "yard", "~> 0.7"
   s.add_development_dependency "redcarpet", "~> 2.1"
   s.add_development_dependency "debugger", "~> 1.2"
