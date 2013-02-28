@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+require 'gli'
+require 'mince_migrator'
+
+include GLI::App
+
+program_desc 'Manages migrations for Mince gems'
+
+version MinceMigrator.version
+
+desc 'Creates a migration'
+arg_name 'Name of migration'
+command :create do |c|
+  c.action do |global_options,options,args|
+    puts "create command ran"
+  end
+end
+
+desc 'Lists all migrations and their statuses'
+command :list do |c|
+  c.action do |global_options,options,args|
+    puts "list command ran"
+  end
+end
+
+desc 'Reverts a migration'
+arg_name 'Name of migration'
+command :revert do |c|
+  c.action do |global_options,options,args|
+    puts "revert command ran"
+  end
+end
+
+desc 'Runs a migration'
+arg_name 'Name of migration'
+command :run do |c|
+  c.action do |global_options,options,args|
+    puts "run command ran"
+  end
+end
+
+desc 'Runs all migrations that have not yet been ran'
+command :run_all do |c|
+  c.action do |global_options,options,args|
+    puts "run_all command ran"
+  end
+end
+
+desc 'Shows the status of a migration'
+arg_name 'Name of migration'
+command :status do |c|
+  c.action do |global_options,options,args|
+    puts "status command ran"
+  end
+end
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abort and not call the
+  # chosen command
+  # Use skips_pre before a command to skip this block
+  # on that command only
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+exit run(ARGV)

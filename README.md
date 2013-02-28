@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ### Generate a migration
 
-	$ bundle exec mince_migrator create "Load admin users"
+	$ mince_migrator create "Load admin users"
 
 ### Implement your migration
 
@@ -57,7 +57,7 @@ For an evolving explanation for the Temporary module, view [Migrating With Tempo
 
 ### Run your single migration
 
-	$ bundle exec mince_migrator run "Load admin users"
+	$ mince_migrator run "Load admin users"
 	
 *You can use any of the following as the name for the above command:*
 
@@ -67,11 +67,11 @@ For an evolving explanation for the Temporary module, view [Migrating With Tempo
 
 ### Revert your single migration
 
-	$ bundle exec mince_migrator revert "Load admin users"
+	$ mince_migrator revert "Load admin users"
 
 ### Run all migrations that have not yet been ran
 
-	$ bundle exec mince_migrator run_all
+	$ mince_migrator run_all
 	
 ### Check the status of a migration
 
@@ -81,9 +81,9 @@ For an evolving explanation for the Temporary module, view [Migrating With Tempo
 
 *Run any of the following*
 
-	$ bundle exec mince_migrator
-	$ bundle exec mince_migrator --help
-	$ bundle exec mince_migrator help
+	$ mince_migrator
+	$ mince_migrator --help
+	$ mince_migrator help
 
 ## Contributing
 
