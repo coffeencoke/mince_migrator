@@ -1,5 +1,7 @@
 # Mince Migrator
 
+[![Travis CI](https://travis-ci.org/coffeencoke/mince_migrator.png)](https://travis-ci.org/#!/coffeencoke/mince_migrator)
+
 **This is not yet released, this read me is a roadmap for what to do, it is not necessarily what has been done yet.**
 
 Mince Migrator is a library that provides a way to run database migrations for your application using the [Mince libraries](https://github.com/coffeencoke/mince).
