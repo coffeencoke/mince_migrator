@@ -24,7 +24,7 @@ command :create do |c|
 end
 
 desc 'Lists all migrations and their statuses'
-command :list
+command :list do |c|
   c.action do |global_options,options,args|
     puts "list command ran"
   end
