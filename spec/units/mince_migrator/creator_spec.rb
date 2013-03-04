@@ -12,11 +12,13 @@ describe MinceMigrator::Creator do
 
     let(:migration_name) { mock }
     let(:migration_file) { mock path: mock, full_path: mock }
+    let(:opened_file) { mock }
 
     before do
       FileUtils.stub(:mkdir_p).with(migration_file.path)
       MinceMigrator::MigrationFile.stub(:new).with(migration_name).and_return(migration_file)
-      File.stub(:open).with(migration_file.full_path, 'w+')
+      File.stub(:open).with(migration_file.full_path, 'w+').and_return(opened_file)
+      opened_file.stub(write: nil, close: nil)
     end
 
     it 'insures the path to the migraiton file exists' do
@@ -30,7 +32,8 @@ describe MinceMigrator::Creator do
     end
 
     it 'creates a migration file' do
-      File.should_receive(:open).with(migration_file.full_path, 'w+')
+      opened_file.should_receive(:write).with("Haz content")
+      opened_file.should_receive(:close)
 
       subject.create_migration
     end

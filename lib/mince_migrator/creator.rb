@@ -14,9 +14,9 @@ module MinceMigrator
 
     def create_migration
       FileUtils.mkdir_p(migration_file.path)
-      File.open(migration_file.full_path, 'w+') do |f|
-        f.write "Haz content"
-      end
+      file = File.open(migration_file.full_path, 'w+')
+      file.write "Haz content"
+      file.close
     end
 
     def migration_file
