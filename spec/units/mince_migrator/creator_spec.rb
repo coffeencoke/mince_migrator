@@ -11,7 +11,7 @@ describe MinceMigrator::Creator do
     subject { described_class.new(migration_name) }
 
     let(:migration_name) { mock }
-    let(:migration_file) { mock path: mock, full_path: mock }
+    let(:migration_file) { mock path: mock, full_path: mock, body: mock }
     let(:opened_file) { mock }
 
     before do
@@ -32,7 +32,7 @@ describe MinceMigrator::Creator do
     end
 
     it 'creates a migration file' do
-      opened_file.should_receive(:write).with("Haz content")
+      opened_file.should_receive(:write).with(migration_file.body)
       opened_file.should_receive(:close)
 
       subject.create_migration

@@ -8,4 +8,5 @@ describe MinceMigrator::MigrationFile do
   its(:filename) { should == "#{subject.name}.rb" }
   its(:full_path) { should == File.join(subject.path, subject.filename) }
   its(:path) { should == File.join(Dir.pwd, "db", "migrations") }
+  its(:body) { should == "Haz content" }
 end

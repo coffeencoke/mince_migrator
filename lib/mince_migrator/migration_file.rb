@@ -20,5 +20,9 @@ module MinceMigrator
     def full_path
       File.join path, filename
     end
+
+    def body
+      "Haz content"
+    end
   end
 end
