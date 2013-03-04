@@ -6,11 +6,19 @@ module MinceMigrator
     end
 
     def path
-      "/tmp/#{name}.rb"
+      File.join(Dir.pwd, "db", "migrations")
     end
 
     def name=(val)
       @name = val.gsub(" ", "_").downcase
+    end
+
+    def filename
+      "#{name}.rb"
+    end
+
+    def full_path
+      File.join path, filename
     end
   end
 end

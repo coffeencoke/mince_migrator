@@ -1,4 +1,5 @@
 module MinceMigrator
+  require 'fileutils'
   require_relative 'migration_file'
 
   class Creator
@@ -12,7 +13,8 @@ module MinceMigrator
     end
 
     def create_migration
-      File.open(migration_file.path, 'w+') do |f|
+      FileUtils.mkdir_p(migration_file.path)
+      File.open(migration_file.full_path, 'w+') do |f|
         f.write "Haz content"
       end
     end

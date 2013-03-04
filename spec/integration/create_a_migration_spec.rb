@@ -22,20 +22,21 @@ describe "The creation of a migration:" do
   describe "Creating a mince migration with a name" do
     let(:options) { "Create seeded admin users" }
 
-    it "returns the migration that was created" do
+    it "can create the migration" do
       subject.can_create_migration?.should be_true
     end
 
     it "creates the migration file" do
       subject.create_migration
 
-      migration_file_destination = File.join('/tmp', "create_seeded_admin_users.rb")
-      File.open(migration_file_destination, 'r') do |f|
+      relative_path = Dir.pwd
+      expected_migration_file_destination = File.join(relative_path, "db", "migrations", "create_seeded_admin_users.rb")
+      File.open(expected_migration_file_destination, 'r') do |f|
         f.read.should == "Haz content"
       end
 
       # teardown
-      FileUtils.rm migration_file_destination
+      FileUtils.rm expected_migration_file_destination
     end
   end
 end
