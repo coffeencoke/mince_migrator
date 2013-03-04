@@ -32,7 +32,7 @@ The template provided to you for a migration looks like this:
 
 ```ruby
 module MinceMigrator
-  module Migration
+  module Migrations
   	module LoadAdminUsers
   	  def self.run
   	  	# Actual migration goes here

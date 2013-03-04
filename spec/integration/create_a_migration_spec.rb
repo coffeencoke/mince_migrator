@@ -32,7 +32,31 @@ describe "The creation of a migration:" do
       relative_path = Dir.pwd
       expected_migration_file_destination = File.join(relative_path, "db", "migrations", "create_seeded_admin_users.rb")
       File.open(expected_migration_file_destination, 'r') do |f|
-        f.read.should == "Haz content"
+        expected_content = <<-eos
+module MinceMigrator
+  module Migrations
+    module CreateSeededAdminUsers
+      def self.run
+        # Actual migration goes here
+      end
+
+      def self.revert
+        # In case you need to revert this one migration
+      end
+
+      # So you can change the order to run more easily
+      def self.time_created
+        "#{Time.now.utc.to_s}"
+      end
+
+      module Temporary
+        # Migration dependent classes go here
+      end
+    end
+  end
+end
+eos
+        f.read.should == expected_content
       end
 
       # teardown
