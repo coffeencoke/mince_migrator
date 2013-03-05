@@ -22,5 +22,9 @@ module MinceMigrator
     def migration_file
       @migration_file ||= MigrationFile.new(name)
     end
+
+    def migration_file_relative_path
+      migration_file.full_relative_path
+    end
   end
 end

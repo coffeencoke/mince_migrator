@@ -6,7 +6,15 @@ module MinceMigrator
     end
 
     def path
-      File.join(Dir.pwd, "db", "migrations")
+      File.join(Dir.pwd, relative_path)
+    end
+
+    def relative_path
+      File.join("db", "migrations")
+    end
+
+    def full_relative_path
+      File.join(relative_path, filename)
     end
 
     def name=(val)

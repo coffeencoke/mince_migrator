@@ -12,7 +12,10 @@ describe MinceMigrator::MigrationFile do
   its(:name) { should == "change_spaces_to_underscores" }
   its(:filename) { should == "#{subject.name}.rb" }
   its(:full_path) { should == File.join(subject.path, subject.filename) }
+  its(:full_relative_path) { should == File.join(subject.relative_path, subject.filename) }
+  its(:relative_path) { should == "db/migrations" }
   its(:path) { should == File.join(Dir.pwd, "db", "migrations") }
+
   it 'has a body using the migraiton template' do 
     expected_content = <<-eos
 module MinceMigrator
