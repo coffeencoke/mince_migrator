@@ -1,0 +1,22 @@
+module MinceMigrator
+  module Migrations
+    module {{klass_name}}
+      def self.run
+        # Actual migration goes here
+      end
+
+      def self.revert
+        # In case you need to revert this one migration
+      end
+
+      # So you can change the order to run more easily
+      def self.time_created
+        "{{time_created}}"
+      end
+
+      module Temporary
+        # Migration dependent classes go here
+      end
+    end
+  end
+end

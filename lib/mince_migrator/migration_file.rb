@@ -1,4 +1,6 @@
 module MinceMigrator
+  require_relative 'migration_template'
+
   class MigrationFile
     attr_reader :name
     def initialize(name)
@@ -34,30 +36,7 @@ module MinceMigrator
     end
 
     def body
-<<-eos
-module MinceMigrator
-  module Migrations
-    module #{klass_name}
-      def self.run
-        # Actual migration goes here
-      end
-
-      def self.revert
-        # In case you need to revert this one migration
-      end
-
-      # So you can change the order to run more easily
-      def self.time_created
-        "#{Time.now.utc.to_s}"
-      end
-
-      module Temporary
-        # Migration dependent classes go here
-      end
-    end
-  end
-end
-eos
+      @body ||= MigrationTemplate.new(klass_name).render
     end
   end
 end
