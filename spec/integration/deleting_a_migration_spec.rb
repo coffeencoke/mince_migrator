@@ -10,12 +10,6 @@ describe 'Deleting a migration' do
       MinceMigrator::Creator.create(name)
     end
 
-    after do
-      relative_path = Dir.pwd
-      expected_migration_file_destination = File.join(relative_path, "db", "migrations", "name_of_migration.rb")
-      FileUtils.rm expected_migration_file_destination
-    end
-
     its(:can_delete_migration?) { should be_true }
 
     it 'deletes it from the file system'

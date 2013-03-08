@@ -1,4 +1,4 @@
-require_relative '../../lib/mince_migrator'
+require_relative '../integration_helper'
 
 describe "The creation of a migration:" do
   subject { MinceMigrator::Creator.new name }
@@ -22,7 +22,7 @@ describe "The creation of a migration:" do
       subject.create_migration
 
       relative_path = Dir.pwd
-      expected_migration_file_destination = File.join(relative_path, "db", "migrations", "create_seeded_admin_users.rb")
+      expected_migration_file_destination = File.join(MinceMigrator::Config.migration_dir, "create_seeded_admin_users.rb")
       File.open(expected_migration_file_destination, 'r') do |f|
         expected_content = <<-eos
 module MinceMigrator
@@ -50,9 +50,6 @@ end
 eos
         f.read.should == expected_content
       end
-
-      # teardown
-      FileUtils.rm expected_migration_file_destination
     end
   end
 end

@@ -3,6 +3,7 @@ group :integration do
     watch('Gemfile') { "spec/integration" }
     watch('Gemfile.lock') { "spec/integration" }
     watch('mince.gemspec') { "spec/integration" }
+    watch('spec/integration_helper.rb') { "spec/integration" }
     watch(%r{^spec/integration/.+_spec\.rb$}) { "spec/integration" }
     watch(%r{^lib/(.+)\.rb$}) { "spec/integration" }
     watch(%r{^lib/mince_migrator/(.+)\.rb$}) { "spec/integration" }
