@@ -3,7 +3,7 @@ module MinceMigrator
 
   class MigrationTemplate < Mustache
 
-    self.path = File.expand_path('../templates', __FILE__)
+    self.template_file = File.expand_path('../templates/migration_template.mustache', __FILE__)
 
     attr_reader :klass_name, :time_created
 

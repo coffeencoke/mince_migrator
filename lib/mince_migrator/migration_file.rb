@@ -3,6 +3,7 @@ module MinceMigrator
 
   class MigrationFile
     attr_reader :name
+
     def initialize(name)
       self.name = name
     end
@@ -32,7 +33,7 @@ module MinceMigrator
     end
 
     def klass_name
-      name.split("_").map{|a| a.capitalize }.join
+      @klass_name ||= name.split("_").map{|a| a.capitalize }.join
     end
 
     def body
