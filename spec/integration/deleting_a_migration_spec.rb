@@ -6,10 +6,6 @@ describe 'Deleting a migration' do
   let(:name) { 'name of migration' }
 
   context 'when the migration exists' do
-    it 'deletes it from the file system'
-  end
-
-  context 'when the migration does not exist' do
     before do
       MinceMigrator::Creator.create(name)
     end
@@ -20,6 +16,12 @@ describe 'Deleting a migration' do
       FileUtils.rm expected_migration_file_destination
     end
 
+    its(:can_delete_migration?) { should be_true }
+
+    it 'deletes it from the file system'
+  end
+
+  context 'when the migration does not exist' do
     its(:can_delete_migration?) { should be_false }
   end
 end
