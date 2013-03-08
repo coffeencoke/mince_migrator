@@ -1,5 +1,6 @@
 module MinceMigrator
   require_relative 'config'
+  require_relative 'migration'
 
   class List
     def all
