@@ -22,19 +22,12 @@ describe 'List of migrations' do
       MinceMigrator::Creator.create(migration_2_name)
     end
 
-    after do
-      MinceMigrator::Destroyer.destroy(migration_1_name)
-      MinceMigrator::Destroyer.destroy(migration_1_name)
-    end
-
-    pending do
     its(:number_of_migrations) { should == 2 }
 
-    it 'contains a record of those migrations' do
+    pending 'contains a record of those migrations' do
       subject.all.size.should == 2
       subject.all[0].should == migration_1
       subject.all[1].should == migration_2
-    end
     end
   end
 end
