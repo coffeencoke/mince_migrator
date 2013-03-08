@@ -25,5 +25,11 @@ describe MinceMigrator::Deleter do
     end
 
     its(:can_delete_migration?) { should be_true }
+
+    it 'deletes the migration' do
+      FileUtils.should_receive(:rm).with(migration_path)
+
+      subject.delete_migration
+    end
   end
 end

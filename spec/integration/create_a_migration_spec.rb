@@ -22,8 +22,8 @@ describe "The creation of a migration:" do
       subject.create_migration
 
       relative_path = Dir.pwd
-      expected_migration_file_destination = File.join(MinceMigrator::Config.migration_dir, "create_seeded_admin_users.rb")
-      File.open(expected_migration_file_destination, 'r') do |f|
+      expected_migration_file_destination = ::File.join(MinceMigrator::Config.migration_dir, "create_seeded_admin_users.rb")
+      ::File.open(expected_migration_file_destination, 'r') do |f|
         expected_content = <<-eos
 module MinceMigrator
   module Migrations

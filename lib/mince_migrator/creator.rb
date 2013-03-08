@@ -15,7 +15,7 @@ module MinceMigrator
 
     def create_migration
       FileUtils.mkdir_p(Config.migration_dir)
-      file = File.open(migration_file.full_path, 'w+')
+      file = ::File.open(migration_file.full_path, 'w+')
       file.write migration_file.body
       file.close
     end
