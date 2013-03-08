@@ -26,5 +26,11 @@ module MinceMigrator
     def migration_file_relative_path
       migration_file.full_relative_path
     end
+
+    def self.create(name)
+      new(name).tap do |creator|
+        creator.create_migration if creator.can_create_migration?
+      end
+    end
   end
 end

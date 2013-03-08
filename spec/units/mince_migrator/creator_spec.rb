@@ -41,3 +41,14 @@ describe MinceMigrator::Creator do
     end
   end
 end
+
+describe MinceMigrator::Creator, 'Class level methods' do
+  it 'can create a migration' do
+    name = mock
+    creator = mock can_create_migration?: true
+    described_class.should_receive(:new).with(name).and_return(creator)
+    creator.should_receive(:create_migration)
+
+    described_class.create(name)
+  end
+end
