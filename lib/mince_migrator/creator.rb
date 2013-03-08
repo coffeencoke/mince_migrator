@@ -1,6 +1,6 @@
 module MinceMigrator
   require 'fileutils'
-  require_relative 'migration_file'
+  require_relative 'migrations/file'
 
   class Creator
     attr_reader :name
@@ -20,7 +20,7 @@ module MinceMigrator
     end
 
     def migration_file
-      @migration_file ||= MigrationFile.new(name)
+      @migration_file ||= Migrations::File.new(name)
     end
 
     def migration_file_relative_path

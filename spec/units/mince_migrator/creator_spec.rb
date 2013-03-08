@@ -16,7 +16,7 @@ describe MinceMigrator::Creator do
 
     before do
       FileUtils.stub(:mkdir_p).with(migration_file.path)
-      MinceMigrator::MigrationFile.stub(:new).with(migration_name).and_return(migration_file)
+      MinceMigrator::Migrations::File.stub(:new).with(migration_name).and_return(migration_file)
       File.stub(:open).with(migration_file.full_path, 'w+').and_return(opened_file)
       opened_file.stub(write: nil, close: nil)
     end

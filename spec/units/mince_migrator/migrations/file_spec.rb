@@ -1,6 +1,6 @@
-require_relative '../../../lib/mince_migrator/migration_file'
+require_relative '../../../../lib/mince_migrator/migrations/file'
 
-describe MinceMigrator::MigrationFile do
+describe MinceMigrator::Migrations::File do
   subject { described_class.new(name) }
 
   let(:expected_class_name) { 'ChangeSpacesToUnderscores' }
@@ -8,7 +8,7 @@ describe MinceMigrator::MigrationFile do
   let(:migration_template) { mock render: mock }
 
   before do
-    MinceMigrator::MigrationTemplate.stub(:new).with(expected_class_name).and_return(migration_template)
+    MinceMigrator::Migrations::Template.stub(:new).with(expected_class_name).and_return(migration_template)
     File.stub(:exists?).with(subject.full_path).and_return(false)
   end
 

@@ -8,7 +8,7 @@ describe MinceMigrator::Deleter do
   subject { described_class.new(name) }
 
   before do
-    MinceMigrator::MigrationFile.stub(path: path)
+    MinceMigrator::Migrations::File.stub(path: path)
   end
 
   context 'when the migration does not exist' do

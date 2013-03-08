@@ -1,6 +1,6 @@
-require_relative '../../../lib/mince_migrator/migration_template'
+require_relative '../../../../lib/mince_migrator/migrations/template'
 
-describe MinceMigrator::MigrationTemplate do
+describe MinceMigrator::Migrations::Template do
   subject { described_class.new klass_name }
 
   let(:klass_name) { 'NameOfMigration' }
