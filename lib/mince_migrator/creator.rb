@@ -1,6 +1,7 @@
 module MinceMigrator
   require 'fileutils'
   require_relative 'migrations/file'
+  require_relative 'config'
 
   class Creator
     attr_reader :name
@@ -13,7 +14,7 @@ module MinceMigrator
     end
 
     def create_migration
-      FileUtils.mkdir_p(migration_file.path)
+      FileUtils.mkdir_p(Config.migration_dir)
       file = File.open(migration_file.full_path, 'w+')
       file.write migration_file.body
       file.close

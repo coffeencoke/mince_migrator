@@ -1,6 +1,7 @@
 module MinceMigrator
   module Migrations
     require_relative 'template'
+    require_relative '../config'
 
     class File
       attr_reader :name
@@ -11,16 +12,8 @@ module MinceMigrator
         self.name = name
       end
 
-      def path
-        self.class.path
-      end
-
-      def relative_path
-        self.class.relative_path
-      end
-
       def full_relative_path
-        ::File.join(relative_path, filename)
+        ::File.join(Config.migration_relative_dir, filename)
       end
 
       def name=(val)
@@ -36,7 +29,7 @@ module MinceMigrator
       end
 
       def full_path
-        ::File.join path, filename
+        ::File.join Config.migration_dir, filename
       end
 
       def klass_name
@@ -45,14 +38,6 @@ module MinceMigrator
 
       def body
         @body ||= Template.new(klass_name).render
-      end
-
-      def self.path
-        ::File.join(Dir.pwd, relative_path)
-      end
-
-      def self.relative_path
-        ::File.join("db", "migrations")
       end
     end
   end
