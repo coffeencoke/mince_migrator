@@ -18,9 +18,20 @@ Gem::Specification.new do |s|
     bin/mince_migrator
     lib/mince_mibrator.rb
     lib/mince_migrator/version.rb
+    lib/mince_migrator/creator.rb
+    lib/mince_migrator/migration_file.rb
+    lib/mince_migrator/migration_template.rb
+    lib/mince_migrator/templates/migration_template.mustache
   )
 
-  #s.test_files    = %w()
+  s.test_files    = %w(
+    spec/integration/create_a_migration_spec.rb
+    spec/integration/list_all_migrations_spec.rb
+    spec/units/mince_migrator/creator_spec.rb
+    spec/units/mince_migrator/migration_file_spec.rb
+    spec/units/mince_migrator/migration_template_spec.rb
+
+  )
   s.require_paths = ["lib"]
   s.bindir = 'bin'
   s.executables << 'mince_migrator'
