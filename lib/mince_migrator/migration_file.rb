@@ -11,11 +11,11 @@ module MinceMigrator
     end
 
     def path
-      File.join(Dir.pwd, relative_path)
+      self.class.path
     end
 
     def relative_path
-      File.join("db", "migrations")
+      self.class.relative_path
     end
 
     def full_relative_path
@@ -46,7 +46,12 @@ module MinceMigrator
       @body ||= MigrationTemplate.new(klass_name).render
     end
 
-    def next_unused_name(name)
+    def self.path
+      File.join(Dir.pwd, relative_path)
+    end
+
+    def self.relative_path
+      File.join("db", "migrations")
     end
   end
 end
