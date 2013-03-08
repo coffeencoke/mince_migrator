@@ -12,13 +12,18 @@ desc 'Creates a migration'
 arg_name 'Name of migration'
 command :create do |c|
   c.action do |global_options,options,args|
+    # Allow multiple ways to provide a name
+    if args.size > 1
+      args = [args.join(" ")]
+    end
+
     creator = MinceMigrator::Creator.new(*args)
     if creator.can_create_migration?
       puts "Migration is being created..."
       creator.create_migration
       puts "Migration created at #{creator.migration_file_relative_path}"
     else
-      help_now!(creator.reasons_for_failure)
+      help_now!("You did not provide a name, a name is required")
     end
   end
 end
@@ -26,7 +31,9 @@ end
 desc 'Lists all migrations and their statuses'
 command :list do |c|
   c.action do |global_options,options,args|
-    puts "list command ran"
+    list = MinceMigrator::List.new
+
+    puts "There are #{list.number_of_migrations} migrations."
   end
 end
 
