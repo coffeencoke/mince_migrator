@@ -9,6 +9,7 @@ describe MinceMigrator::MigrationFile do
 
   before do
     MinceMigrator::MigrationTemplate.stub(:new).with(expected_class_name).and_return(migration_template)
+    File.stub(:exists?).with(subject.full_path).and_return(false)
   end
 
   its(:name) { should == "change_spaces_to_underscores" }
@@ -18,4 +19,22 @@ describe MinceMigrator::MigrationFile do
   its(:relative_path) { should == "db/migrations" }
   its(:path) { should == File.join(Dir.pwd, "db", "migrations") }
   its(:body) { should == migration_template.render }
+
+  context 'when a migration with the same name already exists' do
+    let(:original_full_path) { File.join(subject.path, "change_spaces_to_underscores.rb") }
+    let(:second_full_path) { File.join(subject.path, "change_spaces_to_underscores_2.rb") }
+    let(:new_full_path) { File.join(subject.path, "change_spaces_to_underscores_3.rb") }
+
+    before do
+      File.stub(:exists?).with(original_full_path).and_return(true)
+      File.stub(:exists?).with(second_full_path).and_return(true)
+      File.stub(:exists?).with(new_full_path).and_return(false)
+    end
+
+    it 'appends a number to the end of the file' do
+      subject = described_class.new(name)
+
+      subject.full_path.should == new_full_path
+    end
+  end
 end

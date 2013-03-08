@@ -5,6 +5,8 @@ module MinceMigrator
     attr_reader :name
 
     def initialize(name)
+      @original_name = name
+      @version = 1
       self.name = name
     end
 
@@ -22,6 +24,10 @@ module MinceMigrator
 
     def name=(val)
       @name = val.gsub(" ", "_").downcase
+      if File.exists?(full_path)
+        @version += 1
+        self.name = "#{@original_name}_#{@version}"
+      end
     end
 
     def filename
@@ -33,11 +39,14 @@ module MinceMigrator
     end
 
     def klass_name
-      @klass_name ||= name.split("_").map{|a| a.capitalize }.join
+      name.split("_").map{|a| a.capitalize }.join
     end
 
     def body
       @body ||= MigrationTemplate.new(klass_name).render
+    end
+
+    def next_unused_name(name)
     end
   end
 end
