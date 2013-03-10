@@ -33,12 +33,20 @@ module MinceMigrator
         name.split("_").map{|a| a.capitalize }.join
       end
 
+      def klass
+        eval "::MinceMigrator::Migrations::#{klass_name}"
+      end
+
       def body
         @body ||= Template.new(klass_name).render
       end
 
       def persisted?
         ::File.exists?(full_path)
+      end
+
+      def self.load_from_file(path_to_file)
+        new(path_to_file.split("/")[-1].gsub('.rb', ''))
       end
     end
   end

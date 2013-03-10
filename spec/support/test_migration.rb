@@ -2,7 +2,7 @@ module MinceMigrator
   module Migrations
     require 'time'
 
-    module MyTestMigration
+    module TestMigration
       def self.run
         "Returning a value as a result of the run method"
       end

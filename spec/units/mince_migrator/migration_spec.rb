@@ -9,9 +9,21 @@ describe MinceMigrator::Migration, 'class methods:' do
     let(:path_to_file) { File.expand_path('../../../support/test_migration.rb', __FILE__) }
 
     it 'provides access to the time the migration was created' do
-      expected_time = Time.parse('2013-03-04 09:31:28 UTC')
+      expected_time = Time.parse '2013-03-04 09:31:28 UTC'
 
-      subject.time_created.should == expected_time
+      subject.time_created.should == MinceMigrator::Migrations::TestMigration.time_created
     end
+
+    it 'provides access to the name' do
+      subject.name.should == 'Test migration'
+    end
+
+    it 'has edge cases to test for name'
+
+    it 'has a relative path'
+
+    it 'has a path'
+
+    it 'has a status'
   end
 end

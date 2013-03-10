@@ -34,4 +34,8 @@ describe MinceMigrator::Migrations::File do
 
     its(:persisted?) { should be_false }
   end
+
+  it 'has a klass method to test'
+
+  it 'has a load_from_file method to test'
 end
