@@ -2,6 +2,7 @@ module MinceMigrator
   module Migrations
     require_relative 'template'
     require_relative '../config'
+    require_relative 'versioned_file'
 
     class File
       attr_reader :name
@@ -18,10 +19,6 @@ module MinceMigrator
 
       def name=(val)
         @name = val.gsub(" ", "_").downcase
-        if ::File.exists?(full_path)
-          @version += 1
-          self.name = "#{@original_name}_#{@version}"
-        end
       end
 
       def filename
@@ -38,6 +35,10 @@ module MinceMigrator
 
       def body
         @body ||= Template.new(klass_name).render
+      end
+
+      def persisted?
+        ::File.exists?(full_path)
       end
     end
   end

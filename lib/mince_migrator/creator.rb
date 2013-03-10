@@ -1,10 +1,11 @@
 module MinceMigrator
   require 'fileutils'
-  require_relative 'migrations/file'
+  require_relative 'migrations/versioned_file'
   require_relative 'config'
 
   class Creator
     attr_reader :name
+
     def initialize(name=nil)
       @name = name
     end
@@ -21,7 +22,11 @@ module MinceMigrator
     end
 
     def migration_file
-      @migration_file ||= Migrations::File.new(name)
+      @migration_file ||= versioned_file.next_unused_version
+    end
+
+    def versioned_file
+      @versioned_file ||= Migrations::VersionedFile.new(name)
     end
 
     def migration_file_relative_path
