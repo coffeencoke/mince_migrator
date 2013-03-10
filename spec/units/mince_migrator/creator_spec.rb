@@ -11,33 +11,39 @@ describe MinceMigrator::Creator do
     subject { described_class.new(migration_name) }
 
     let(:migration_name) { mock }
+    let(:opened_file) { mock write: nil, close: nil }
     let(:migration_file) { mock path: mock, full_path: mock, body: mock, full_relative_path: mock }
-    let(:opened_file) { mock }
+    let(:versioned_file) { mock next_unused_version: migration_file }
 
     before do
       FileUtils.stub(:mkdir_p).with(MinceMigrator::Config.migration_dir)
-      MinceMigrator::Migrations::File.stub(:new).with(migration_name).and_return(migration_file)
-      File.stub(:open).with(migration_file.full_path, 'w+').and_return(opened_file)
-      opened_file.stub(write: nil, close: nil)
     end
 
-    its(:migration_file_relative_path){ should == migration_file.full_relative_path }
+    context 'when no migrations exist with this name' do
+      before do
+        MinceMigrator::Migrations::VersionedFile.stub(:new).with(migration_name).and_return(versioned_file)
+        ::File.stub(:open).with(migration_file.full_path, 'w+').and_return(opened_file)
+        ::File.stub(:exists?).with(migration_file.full_path).and_return(false)
+      end
 
-    it 'insures the path to the migraiton file exists' do
-      FileUtils.should_receive(:mkdir_p).with(MinceMigrator::Config.migration_dir)
+      its(:migration_file_relative_path){ should == migration_file.full_relative_path }
 
-      subject.create_migration
-    end
+      it 'insures the path to the migraiton file exists' do
+        FileUtils.should_receive(:mkdir_p).with(MinceMigrator::Config.migration_dir)
 
-    it 'can create the migration' do
-      subject.can_create_migration?.should be_true
-    end
+        subject.create_migration
+      end
 
-    it 'creates a migration file' do
-      opened_file.should_receive(:write).with(migration_file.body)
-      opened_file.should_receive(:close)
+      it 'can create the migration' do
+        subject.can_create_migration?.should be_true
+      end
 
-      subject.create_migration
+      it 'creates a migration file' do
+        opened_file.should_receive(:write).with(migration_file.body)
+        opened_file.should_receive(:close)
+
+        subject.create_migration
+      end
     end
   end
 end

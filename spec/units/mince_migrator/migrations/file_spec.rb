@@ -19,21 +19,19 @@ describe MinceMigrator::Migrations::File do
   its(:full_relative_path) { should == File.join(config.migration_relative_dir, subject.filename) }
   its(:body) { should == migration_template.render }
 
-  context 'when a migration with the same name already exists' do
-    let(:original_full_path) { File.join(config.migration_dir, "change_spaces_to_underscores.rb") }
-    let(:second_full_path) { File.join(config.migration_dir, "change_spaces_to_underscores_2.rb") }
-    let(:new_full_path) { File.join(config.migration_dir, "change_spaces_to_underscores_3.rb") }
-
+  context 'when it has been written to the file system' do
     before do
-      File.stub(:exists?).with(original_full_path).and_return(true)
-      File.stub(:exists?).with(second_full_path).and_return(true)
-      File.stub(:exists?).with(new_full_path).and_return(false)
+      ::File.stub(:exists?).with(subject.full_path).and_return(true)
     end
 
-    it 'appends a number to the end of the file' do
-      subject = described_class.new(name)
+    its(:persisted?) { should be_true }
+  end
 
-      subject.full_path.should == new_full_path
+  context 'when it has not been written to the file system' do
+    before do
+      ::File.stub(:exists?).with(subject.full_path).and_return(false)
     end
+
+    its(:persisted?) { should be_false }
   end
 end
