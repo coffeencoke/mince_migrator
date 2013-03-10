@@ -1,8 +1,6 @@
 module MinceMigrator
   module Migrations
-    require 'time'
-
-    module {{klass_name}}
+    module Test
       def self.run
         # Actual migration goes here
       end
@@ -13,7 +11,7 @@ module MinceMigrator
 
       # So you can change the order to run more easily
       def self.time_created
-        Time.parse "{{time_created}}"
+        "2013-03-10 04:18:11 UTC"
       end
 
       module Temporary

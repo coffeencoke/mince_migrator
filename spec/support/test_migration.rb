@@ -2,18 +2,18 @@ module MinceMigrator
   module Migrations
     require 'time'
 
-    module {{klass_name}}
+    module MyTestMigration
       def self.run
-        # Actual migration goes here
+        "Returning a value as a result of the run method"
       end
 
       def self.revert
-        # In case you need to revert this one migration
+        "Returning a value as a result of the revert method"
       end
 
       # So you can change the order to run more easily
       def self.time_created
-        Time.parse "{{time_created}}"
+        Time.parse '2013-03-04 09:31:28 UTC'
       end
 
       module Temporary
@@ -22,3 +22,4 @@ module MinceMigrator
     end
   end
 end
+
