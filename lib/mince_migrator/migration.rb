@@ -26,6 +26,10 @@ module MinceMigrator
       val.split("_").map{|a| a.split(" ") }.flatten
     end
 
+    def self.find(name)
+
+    end
+
     def self.load_from_file(path_to_file)
       require path_to_file
 

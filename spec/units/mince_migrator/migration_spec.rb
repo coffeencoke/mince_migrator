@@ -52,4 +52,14 @@ describe MinceMigrator::Migration, 'class methods:' do
       MinceMigrator::Migrations::TestMigration.should be_true
     end
   end
+
+  describe 'Finding a migration for a given name' do
+    context 'when the migration exists' do
+      it 'returns the migration'
+    end
+
+    context 'when the migration does not exist' do
+      it 'returns nothing'
+    end
+  end
 end
