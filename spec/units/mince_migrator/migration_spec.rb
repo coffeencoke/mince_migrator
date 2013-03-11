@@ -54,8 +54,22 @@ describe MinceMigrator::Migration, 'class methods:' do
   end
 
   describe 'Finding a migration for a given name' do
+    subject { described_class.find(name) }
+
+    let(:name) { mock }
+    let(:migration_file) { mock klass: mock, name: mock, full_relative_path: mock, full_path: mock }
+
     context 'when the migration exists' do
-      it 'returns the migration'
+      let(:migration) { mock }
+
+      before do
+        MinceMigrator::Migrations::File.stub(:find).with(name).and_return(migration_file)
+        MinceMigrator::Migration.stub(:new).with(klass: migration_file.klass, name: migration_file.name, relative_path: migration_file.full_relative_path, path: migration_file.full_path).and_return(migration)
+      end
+
+      it 'returns the migration' do
+        subject.should == migration
+      end
     end
 
     context 'when the migration does not exist' do
