@@ -6,21 +6,36 @@ module MinceMigrator
   class Migration
     attr_reader :time_created, :name, :status, :relative_path, :path
 
-    def initialize(migration_file)
-      @klass = migration_file.klass
+    def initialize(options)
+      @klass = options[:klass]
       @time_created = @klass.time_created
-      split_name = migration_file.name.split("_")
-      @name = "#{split_name[0].capitalize} #{split_name[1..-1].join(" ")}"
+      self.name = options[:name]
       @status = "not ran"
-      @relative_path = migration_file.full_relative_path
-      @path = migration_file.full_path
+      @relative_path = options[:relative_path]
+      @path = options[:path]
+    end
+
+    def name=(val)
+      words = split_name(val).each_with_index.map do |word, i|
+        i == 0 ? word.capitalize : word.downcase
+      end
+      @name = words.join(" ")
+    end
+
+    def split_name(val)
+      val.split("_").map{|a| a.split(" ") }.flatten
     end
 
     def self.load_from_file(path_to_file)
       require path_to_file
 
       file = Migrations::File.load_from_file(path_to_file)
-      new file
+      new(
+        klass: file.klass, 
+        name: file.name, 
+        relative_path: file.full_relative_path, 
+        path: file.full_path
+      )
     end
   end
 end
