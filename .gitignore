@@ -2,6 +2,8 @@
 *.rbc
 .bundle
 .config
+db
+tmp/db_for_integration_specs
 .yardoc
 Gemfile.lock
 InstalledFiles

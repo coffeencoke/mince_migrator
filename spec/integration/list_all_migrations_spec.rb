@@ -20,7 +20,7 @@ describe 'List of migrations' do
 
     its(:number_of_migrations) { should == 1 }
 
-    pending 'contains a record of the migration' do
+    it 'contains a record of the migration' do
       subject.all.size.should == 1
       subject.all.first.name.should == "First migration"
       subject.all.first.status.should == 'not ran'

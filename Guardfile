@@ -4,6 +4,7 @@ group :integration do
     watch('Gemfile.lock') { "spec/integration" }
     watch('mince.gemspec') { "spec/integration" }
     watch('spec/integration_helper.rb') { "spec/integration" }
+    watch(%r{^spec/support/(.+)\.rb}) { "spec/integration" }
     watch(%r{^spec/integration/.+_spec\.rb$}) { "spec/integration" }
     watch(%r{^lib/(.+)\.rb$}) { "spec/integration" }
     watch(%r{^lib/mince_migrator/(.+)\.rb$}) { "spec/integration" }
@@ -15,6 +16,7 @@ group :units do
     watch('Gemfile') { "spec/units" }
     watch('Gemfile.lock') { "spec/units" }
     watch('mince.gemspec') { "spec/units" }
+    watch(%r{^spec/support/(.+)\.rb}) { "spec/units/lib/mince_migrator/migration.rb" }
     watch(%r{^spec/units/mince_migrator/.+_spec\.rb$})
     watch(%r{^lib/mince_migrator/(.+)\.rb})                { |m| "spec/units/mince_migrator/#{m[1]}_spec.rb" }
   end

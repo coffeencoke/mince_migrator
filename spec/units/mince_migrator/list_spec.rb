@@ -20,14 +20,22 @@ describe MinceMigrator::List do
   end
 
   context 'when some migrations exist' do
-    let(:file_paths) { [file_path1, file_path2] }
-    let(:file_path1) { mock }
-    let(:file_path2) { mock }
+    let(:migration_paths) { [migration_path1, migration_path2] }
+    let(:migration_path1) { mock }
+    let(:migration_path2) { mock }
+    let(:migration1) { mock time_created: Time.now.utc }
+    let(:migration2) { mock time_created: Time.now.utc - 500000 }
 
     before do
-      Dir.stub(:glob).with("#{migration_dir}/*").and_return(file_paths)
+      Dir.stub(:glob).with("#{migration_dir}/*").and_return(migration_paths)
+      MinceMigrator::Migration.stub(:load_from_file).with(migration_path1).and_return(migration1)
+      MinceMigrator::Migration.stub(:load_from_file).with(migration_path2).and_return(migration2)
     end
 
     its(:number_of_migrations) { should == 2 }
+
+    it 'can load all migrations' do
+      subject.all.should == [migration2, migration1]
+    end
   end
 end

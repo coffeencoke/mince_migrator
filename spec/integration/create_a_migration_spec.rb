@@ -27,6 +27,8 @@ describe "The creation of a migration:" do
         expected_content = <<-eos
 module MinceMigrator
   module Migrations
+    require 'time'
+
     module CreateSeededAdminUsers
       def self.run
         # Actual migration goes here
@@ -38,7 +40,7 @@ module MinceMigrator
 
       # So you can change the order to run more easily
       def self.time_created
-        "#{Time.now.utc.to_s}"
+        Time.parse "#{Time.now.utc.to_s}"
       end
 
       module Temporary
