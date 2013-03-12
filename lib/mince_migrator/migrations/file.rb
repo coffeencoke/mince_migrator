@@ -45,8 +45,17 @@ module MinceMigrator
         ::File.exists?(full_path)
       end
 
+      def load
+        require full_path
+      end
+
       def self.load_from_file(path_to_file)
-        new(path_to_file.split("/")[-1].gsub('.rb', ''))
+        new(path_to_file.split("/")[-1].gsub('.rb', '')).tap(&:load)
+      end
+
+      def self.find(name)
+        file = new(name)
+        file if file.persisted?
       end
     end
   end

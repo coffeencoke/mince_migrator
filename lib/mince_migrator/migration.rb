@@ -27,14 +27,15 @@ module MinceMigrator
     end
 
     def self.find(name)
-      file = Migrations::File.find(name)
-      new(klass: file.klass, name: file.name, relative_path: file.full_relative_path, path: file.full_path)
+      new_from_file Migrations::File.find_by_name(name)
+
     end
 
     def self.load_from_file(path_to_file)
-      require path_to_file
+      new_from_file Migrations::File.load_from_file(path_to_file)
+    end
 
-      file = Migrations::File.load_from_file(path_to_file)
+    def self.new_from_file(file)
       new(
         klass: file.klass, 
         name: file.name, 

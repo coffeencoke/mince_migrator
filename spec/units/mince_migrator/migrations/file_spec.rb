@@ -35,7 +35,40 @@ describe MinceMigrator::Migrations::File do
     its(:persisted?) { should be_false }
   end
 
-  it 'has a klass method to test'
+  it 'has a klass method to test' # not sure the best way to test this
 
   it 'has a load_from_file method to test'
+end
+
+describe MinceMigrator::Migrations::File, 'Class methods:' do
+  describe 'finding a file' do
+    subject { described_class.find(name) }
+
+    let(:name) { mock }
+    let(:file) { mock }
+
+    before do
+      described_class.stub(:new).with(name).and_return(file)
+    end
+
+    context 'when one exists' do
+      before do
+        file.stub(persisted?: true)
+      end
+
+      it 'returns the file' do
+        subject.should == file
+      end
+    end
+
+    context 'when one does not exist' do
+      before do
+        file.stub(persisted?: false)
+      end
+
+      it 'returns nothing' do
+        subject.should be_nil
+      end
+    end
+  end
 end

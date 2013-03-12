@@ -47,9 +47,9 @@ describe MinceMigrator::Migration, 'class methods:' do
     end
 
     it 'loads the migration file into memory' do
+      MinceMigrator::Migrations::File.should_receive(:load_from_file).with(path_to_file).and_return(migration_file)
+     
       subject
-
-      MinceMigrator::Migrations::TestMigration.should be_true
     end
   end
 
@@ -57,14 +57,14 @@ describe MinceMigrator::Migration, 'class methods:' do
     subject { described_class.find(name) }
 
     let(:name) { mock }
-    let(:migration_file) { mock klass: mock, name: mock, full_relative_path: mock, full_path: mock }
 
     context 'when the migration exists' do
       let(:migration) { mock }
+      let(:migration_file) { mock }
 
       before do
-        MinceMigrator::Migrations::File.stub(:find).with(name).and_return(migration_file)
-        MinceMigrator::Migration.stub(:new).with(klass: migration_file.klass, name: migration_file.name, relative_path: migration_file.full_relative_path, path: migration_file.full_path).and_return(migration)
+        MinceMigrator::Migrations::File.stub(:find_by_name).with(name).and_return(migration_file)
+        MinceMigrator::Migration.stub(:new_from_file).with(migration_file).and_return(migration)
       end
 
       it 'returns the migration' do
@@ -74,6 +74,21 @@ describe MinceMigrator::Migration, 'class methods:' do
 
     context 'when the migration does not exist' do
       it 'returns nothing'
+    end
+  end
+
+  describe 'initializing with a migration file' do
+    subject { described_class.new_from_file(file) }
+
+    let(:file) { mock klass: mock, name: mock, full_relative_path: mock, full_path: mock }
+    let(:migration) { mock }
+
+    before do
+      described_class.stub(:new).with(klass: file.klass, name: file.name, relative_path: file.full_relative_path, path: file.full_path).and_return(migration)
+    end
+
+    it 'returns the migration' do
+      subject.should == migration
     end
   end
 end
