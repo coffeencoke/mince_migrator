@@ -33,7 +33,7 @@ describe MinceMigrator::Migration, 'class methods:' do
   describe 'Loading from a file' do
     subject { described_class.load_from_file(path_to_file) }
 
-    let(:path_to_file) { File.expand_path('../../../support/test_migration.rb', __FILE__) }
+    let(:path_to_file) { mock }
     let(:migration_file) { mock klass: mock, name: mock, full_relative_path: mock, full_path: mock }
     let(:migration) { mock }
 
