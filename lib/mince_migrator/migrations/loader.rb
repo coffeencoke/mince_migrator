@@ -12,6 +12,9 @@ module MinceMigrator
 
       def call
         require @full_path
+        klass
+      rescue
+        raise 'invalid migration'
       end
     end
   end
