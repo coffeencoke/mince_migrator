@@ -46,7 +46,7 @@ describe 'List of migrations' do
       expected_migrations = [migration_2, migration_1]
       subject.all.size.should == expected_migrations.size
       subject.all.each_with_index do |migration, index|
-        expected_migration = expected_migrations[index]
+        expected_migration = expected_migrations.find{|a| a.name == migration.name }
         migration.name.should == expected_migration.name
         migration.status.should == 'not ran'
         migration.relative_path.should == migration.relative_path
