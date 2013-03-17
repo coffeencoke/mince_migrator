@@ -3,6 +3,7 @@ module MinceMigrator
     require_relative 'template'
     require_relative '../config'
     require_relative 'versioned_file'
+    require_relative 'loader'
 
     class File
       attr_reader :name
@@ -30,11 +31,11 @@ module MinceMigrator
       end
 
       def klass_name
-        name.split("_").map{|a| a.capitalize }.join
+        name.split("_").map(&:capitalize).join
       end
 
       def klass
-        eval "::MinceMigrator::Migrations::#{klass_name}"
+        loader.klass
       end
 
       def body
@@ -46,7 +47,7 @@ module MinceMigrator
       end
 
       def load
-        require full_path
+        loader.call
       end
 
       def self.load_from_file(path_to_file)
@@ -61,6 +62,12 @@ module MinceMigrator
 
       def self.convert_path_to_name(path)
         path.split("/")[-1].gsub('.rb', '')
+      end
+
+      private
+
+      def loader
+        @loader ||= Loader.new(full_path: full_path, klass_name: klass_name)
       end
     end
   end

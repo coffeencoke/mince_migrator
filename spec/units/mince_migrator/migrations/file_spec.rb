@@ -7,10 +7,12 @@ describe MinceMigrator::Migrations::File do
   let(:name) { "Change spaces to underscores" }
   let(:migration_template) { mock render: mock }
   let(:config) { MinceMigrator::Config }
+  let(:loader) { mock klass: mock, load: nil }
 
   before do
     MinceMigrator::Migrations::Template.stub(:new).with(expected_class_name).and_return(migration_template)
     File.stub(:exists?).with(subject.full_path).and_return(false)
+    MinceMigrator::Migrations::Loader.stub(:new).with(full_path: subject.full_path, klass_name: subject.klass_name).and_return(loader)
   end
 
   its(:name) { should == "change_spaces_to_underscores" }
@@ -18,6 +20,13 @@ describe MinceMigrator::Migrations::File do
   its(:full_path) { should == File.join(config.migration_dir, subject.filename) }
   its(:full_relative_path) { should == File.join(config.migration_relative_dir, subject.filename) }
   its(:body) { should == migration_template.render }
+  its(:klass) { should == loader.klass }
+
+  it 'can load the migration file' do
+    loader.should_receive(:call)
+
+    subject.load
+  end
 
   context 'when it has been written to the file system' do
     before do
@@ -34,10 +43,6 @@ describe MinceMigrator::Migrations::File do
 
     its(:persisted?) { should be_false }
   end
-
-  it 'has a klass method to test' # not sure the best way to test this
-
-  it 'has a load_from_file method to test'
 end
 
 describe MinceMigrator::Migrations::File, 'Class methods:' do
