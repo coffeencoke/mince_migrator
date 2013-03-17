@@ -11,19 +11,41 @@ module MinceMigrator
       end
 
       def call
-        check_that_file_exists
-        require @full_path
-        klass
-      rescue NameError
-        raise 'invalid migration'
+        if valid?
+          require @full_path
+          perform_post_load_validations
+        end
+      end
+
+      def valid?
+        file_exists?
       end
 
       private
 
-      def check_that_file_exists
-        if !::File.exists?(@full_path)
-          raise 'migration does not exist'
+      def perform_post_load_validations
+        mince_migration? && has_valid_interface?
+      end
+
+      def mince_migration?
+        klass # Check that constant is valid and loaded
+      rescue NameError
+        raise 'invalid migration'
+      end
+
+      def has_valid_interface?
+        if !has_all_interfaces?
+          raise "migration does not have all required methods (:run, :revert, and :time_created)"
         end
+      end
+
+      def has_all_interfaces?
+        %w(run revert time_created).all?{|a| klass.respond_to?(a) }
+      end
+
+      def file_exists?
+        raise 'migration does not exist' unless ::File.exists?(@full_path)
+        true
       end
     end
   end

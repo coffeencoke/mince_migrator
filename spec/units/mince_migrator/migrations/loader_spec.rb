@@ -34,5 +34,14 @@ describe MinceMigrator::Migrations::Loader do
       expect { subject.call }.to raise_exception('migration does not exist')
     end
   end
+
+  context 'when the migration does not have the required interface' do
+    let(:full_path) { File.expand_path('../../../../support/invalid_interface_migration.rb', __FILE__) }
+    let(:klass_name) { 'InvalidInterfaceMigration' }
+
+    it 'raises an exception' do
+      expect { subject.call }.to raise_exception('migration does not have all required methods (:run, :revert, and :time_created)')
+    end
+  end
 end
 
