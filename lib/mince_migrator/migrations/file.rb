@@ -50,12 +50,17 @@ module MinceMigrator
       end
 
       def self.load_from_file(path_to_file)
-        new(path_to_file.split("/")[-1].gsub('.rb', '')).tap(&:load)
+        name = convert_path_to_name(path_to_file)
+        find(name)
       end
 
       def self.find(name)
         file = new(name)
         file.tap(&:load) if file.persisted?
+      end
+
+      def self.convert_path_to_name(path)
+        path.split("/")[-1].gsub('.rb', '')
       end
     end
   end
