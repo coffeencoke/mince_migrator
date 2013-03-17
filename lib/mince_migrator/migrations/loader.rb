@@ -11,10 +11,19 @@ module MinceMigrator
       end
 
       def call
+        check_that_file_exists
         require @full_path
         klass
-      rescue
+      rescue NameError
         raise 'invalid migration'
+      end
+
+      private
+
+      def check_that_file_exists
+        if !::File.exists?(@full_path)
+          raise 'migration does not exist'
+        end
       end
     end
   end
