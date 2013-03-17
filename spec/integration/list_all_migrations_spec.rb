@@ -42,8 +42,8 @@ describe 'List of migrations' do
 
     its(:number_of_migrations) { should == 2 }
 
-    pending 'contains a record of those migrations' do
-      expected_migrations = [migration_1, migration_2] # sorted by time ascending
+    it 'contains a record of those migrations' do
+      expected_migrations = [migration_2, migration_1]
       subject.all.size.should == expected_migrations.size
       subject.all.each_with_index do |migration, index|
         expected_migration = expected_migrations[index]

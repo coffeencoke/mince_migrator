@@ -55,7 +55,7 @@ module MinceMigrator
 
       def self.find(name)
         file = new(name)
-        file if file.persisted?
+        file.tap(&:load) if file.persisted?
       end
     end
   end

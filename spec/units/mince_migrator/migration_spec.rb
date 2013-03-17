@@ -63,7 +63,7 @@ describe MinceMigrator::Migration, 'class methods:' do
       let(:migration_file) { mock }
 
       before do
-        MinceMigrator::Migrations::File.stub(:find_by_name).with(name).and_return(migration_file)
+        MinceMigrator::Migrations::File.stub(:find).with(name).and_return(migration_file)
         MinceMigrator::Migration.stub(:new_from_file).with(migration_file).and_return(migration)
       end
 
@@ -73,7 +73,13 @@ describe MinceMigrator::Migration, 'class methods:' do
     end
 
     context 'when the migration does not exist' do
-      it 'returns nothing'
+      before do
+        MinceMigrator::Migrations::File.stub(:find).with(name).and_return(nil)
+      end
+
+      it 'returns nothing' do
+        subject.should be_nil
+      end
     end
   end
 

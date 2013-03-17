@@ -53,11 +53,17 @@ describe MinceMigrator::Migrations::File, 'Class methods:' do
 
     context 'when one exists' do
       before do
-        file.stub(persisted?: true)
+        file.stub(persisted?: true, load: nil)
       end
 
       it 'returns the file' do
         subject.should == file
+      end
+
+      it 'loads the migration class' do
+        file.should_receive(:load)
+
+        subject
       end
     end
 

@@ -27,8 +27,9 @@ module MinceMigrator
     end
 
     def self.find(name)
-      new_from_file Migrations::File.find_by_name(name)
-
+      if file = Migrations::File.find(name)
+        new_from_file file
+      end
     end
 
     def self.load_from_file(path_to_file)
