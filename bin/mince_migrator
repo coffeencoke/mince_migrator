@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'gli'
 require 'mince_migrator'
+require 'mince_migrator/list_report'
 
 include GLI::App
 
@@ -32,16 +33,7 @@ desc 'Lists all migrations and their statuses'
 command :list do |c|
   c.action do |global_options,options,args|
     list = MinceMigrator::List.new
-
-    puts "There are #{list.number_of_migrations} migrations.\n\n"
-
-    list.all.each do |migration|
-      puts "Name: \t\t#{migration.name}"
-      puts "Path: \t\t#{migration.relative_path}"
-      puts "Status: \t#{migration.status}"
-      puts "Created At: \t#{migration.time_created}"
-      puts '----------------------------------------------------------------------'
-    end
+    MinceMigrator::ListReport.new(list).run
   end
 end
 

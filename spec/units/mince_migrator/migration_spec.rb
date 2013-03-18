@@ -6,7 +6,7 @@ describe MinceMigrator::Migration do
   subject { described_class.new(options) }
 
   let(:options) { { klass: klass, name: name, relative_path: relative_path, path: path } }
-  let(:klass) { mock time_created: mock }
+  let(:klass) { mock time_created: Time.now.utc - 50000 }
   let(:name) { "name_of_migration" }
   let(:relative_path) { mock }
   let(:path) { mock }
@@ -14,6 +14,7 @@ describe MinceMigrator::Migration do
   its(:time_created) { should == klass.time_created }
   its(:relative_path) { should == relative_path }
   its(:path) { should == path }
+  its(:age_in_days) { should == 5 }
 
   [
     { in: 'name', out: 'Name' }, 

@@ -15,6 +15,10 @@ module MinceMigrator
       @path = options[:path]
     end
 
+    def age
+      @age ||= "#{(Time.now.utc.to_date - time_created.to_date).to_i}d"
+    end
+
     def name=(val)
       words = split_name(val).each_with_index.map do |word, i|
         i == 0 ? word.capitalize : word.downcase
