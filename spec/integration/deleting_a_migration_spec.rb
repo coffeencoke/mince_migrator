@@ -1,4 +1,4 @@
-require_relative '../../lib/mince_migrator'
+require_relative '../integration_helper'
 
 describe 'Deleting a migration' do
   subject { MinceMigrator::Deleter.new(name) }

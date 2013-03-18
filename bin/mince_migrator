@@ -55,7 +55,19 @@ desc 'Runs a migration'
 arg_name 'Name of migration'
 command :run do |c|
   c.action do |global_options,options,args|
-    puts "run command ran"
+    # Allow multiple ways to provide a name
+    if args.size > 1
+      args = [args.join(" ")]
+    end
+
+    runner = MinceMigrator::Migration::Runner.new(*args)
+    if runner.can_run_migration?
+      puts "Migration is being ran..."
+      runner.run_migration
+      puts "Migration finished."
+    else
+      help_now!(runner.reasons_for_failure)
+    end
   end
 end
 

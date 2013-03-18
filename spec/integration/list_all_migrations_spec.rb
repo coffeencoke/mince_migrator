@@ -1,4 +1,4 @@
-require_relative '../../lib/mince_migrator'
+require_relative '../integration_helper'
 
 describe 'List of migrations' do
   subject { MinceMigrator::List.new }
