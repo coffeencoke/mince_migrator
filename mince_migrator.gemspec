@@ -41,6 +41,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "gli", "~> 2.5"
   s.add_runtime_dependency "mustache", "0.99.4"
   s.add_runtime_dependency "command_line_reporter", '~> 3.2'
+  s.add_runtime_dependency "colored", '~> 1.2'
   s.add_development_dependency "rake", '~> 0.9'
   s.add_development_dependency "rspec", '~> 2.0'
   s.add_development_dependency "guard-rspec", '~> 0.6'

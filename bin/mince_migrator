@@ -33,7 +33,13 @@ desc 'Lists all migrations and their statuses'
 command :list do |c|
   c.action do |global_options,options,args|
     list = MinceMigrator::List.new
-    MinceMigrator::ListReport.new(list).run
+    if list.all.any?
+      MinceMigrator::ListReport.new(list).run
+    else
+      puts "\nThere are no migrations in the '#{MinceMigrator::Config.migration_relative_dir}' directory.\n".red
+      puts "run the following for more info to create a migration:\n\n"
+      puts "  mince_migrator create --help\n\n".green
+    end
   end
 end
 
