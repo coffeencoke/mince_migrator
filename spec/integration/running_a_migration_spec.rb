@@ -6,6 +6,10 @@ describe 'Running a migration' do
   context 'when the migration could not be found' do
     let(:name) { 'migration that does not exist' }
 
+    before do
+      subject.can_run_migration?
+    end
+
     its(:reasons_for_failure) { should == "Migration does not exist" }
     its(:can_run_migration?) { should be_false }
   end
@@ -22,6 +26,7 @@ describe 'Running a migration' do
     before do
       FileUtils.mkdir_p(db_dir)
       FileUtils.cp(spec_migration, db_dir)
+      subject.can_run_migration?
     end
 
     it 'can run the migration' do
@@ -35,6 +40,7 @@ describe 'Running a migration' do
     context 'and the migration has already been ran' do
       before do
         subject.run_migration
+        subject.can_run_migration?
       end
   
       its(:reasons_for_failure) { should == "Migration has already ran" }
@@ -47,6 +53,7 @@ describe 'Running a migration' do
 
     before do
       Mince::Config.interface = nil
+      subject.can_run_migration?
     end
 
     after do
