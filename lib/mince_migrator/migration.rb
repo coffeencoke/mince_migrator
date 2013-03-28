@@ -2,6 +2,7 @@ require 'debugger'
 
 module MinceMigrator
   require_relative 'migrations/file'
+  require_relative 'ran_migration'
 
   class Migration
     attr_reader :time_created, :name, :status, :relative_path, :path
@@ -32,6 +33,10 @@ module MinceMigrator
 
     def run
       @klass.run
+    end
+
+    def ran?
+      !!RanMigration.find_by_name(name)
     end
 
     def self.find(name)

@@ -34,6 +34,24 @@ describe MinceMigrator::Migration do
     klass.should_receive(:run).and_return(return_value)
     subject.run.should == return_value
   end
+
+  context 'when there is a record of the migration being ran' do
+    let(:ran_migration) { mock }
+
+    before do
+      MinceMigrator::RanMigration.stub(:find_by_name).with(subject.name).and_return(ran_migration)
+    end
+
+    its(:ran?) { should be_true }
+  end
+
+  context 'when there is not a record of the migration being ran' do
+   before do
+      MinceMigrator::RanMigration.stub(:find_by_name).with(subject.name).and_return(nil)
+    end
+
+    its(:ran?) { should be_false }
+  end
 end
 
 describe MinceMigrator::Migration, 'class methods:' do

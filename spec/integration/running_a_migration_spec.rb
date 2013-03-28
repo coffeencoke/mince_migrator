@@ -16,7 +16,7 @@ describe 'Running a migration' do
     let(:db_dir) { MinceMigrator::Config.migration_dir }
     let(:data_model) { MinceMigrator::Migrations::TestMigration::Temporary::UserDataModel }
 
-    its(:reasons_for_failure) { should be_nil }
+    its(:reasons_for_failure) { should be_empty }
     its(:can_run_migration?) { should be_true }
 
     before do
@@ -30,6 +30,15 @@ describe 'Running a migration' do
       users = data_model.all
       users.size.should == 1
       users.first[:username].should == 'matt'
+    end
+
+    context 'and the migration has already been ran' do
+      before do
+        subject.run_migration
+      end
+  
+      its(:reasons_for_failure) { should == "Migration has already ran" }
+      its(:can_run_migration?) { should be_false }
     end
   end
 end
