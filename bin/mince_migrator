@@ -60,7 +60,7 @@ command :run do |c|
       args = [args.join(" ")]
     end
 
-    runner = MinceMigrator::Migration::Runner.new(*args)
+    runner = MinceMigrator::Migrations::Runner.new(*args)
     if runner.can_run_migration?
       puts "Migration is being ran..."
       runner.run_migration

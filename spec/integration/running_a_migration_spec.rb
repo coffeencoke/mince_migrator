@@ -41,4 +41,19 @@ describe 'Running a migration' do
       its(:can_run_migration?) { should be_false }
     end
   end
+
+  context 'when Mince interface has not been set' do
+    let(:name) { 'name' }
+
+    before do
+      Mince::Config.interface = nil
+    end
+
+    after do
+      Mince::Config.interface = Mince::HashyDb::Interface
+    end
+
+    its(:reasons_for_failure) { should == "Mince interface is not set" }
+    its(:can_run_migration?) { should be_false }
+  end
 end

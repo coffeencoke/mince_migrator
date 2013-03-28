@@ -5,6 +5,10 @@ describe MinceMigrator::Migrations::Runner do
 
   let(:name) { mock }
 
+  before do
+    Mince::Config.interface = mock
+  end
+
   context 'when the migration exists' do
     let(:migration) { mock ran?: false, name: mock }
 
@@ -54,5 +58,16 @@ describe MinceMigrator::Migrations::Runner do
 
     its(:can_run_migration?) { should be_false }
     its(:reasons_for_failure) { should == 'Migration does not exist' }
+  end
+
+  context 'when the mince interface is not set' do
+    let(:name) { 'name' }
+
+    before do
+      Mince::Config.interface = nil
+    end
+
+    its(:can_run_migration?) { should be_false }
+    its(:reasons_for_failure) { should == 'Mince interface is not set' }
   end
 end
