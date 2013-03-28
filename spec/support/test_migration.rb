@@ -4,9 +4,7 @@ module MinceMigrator
 
     module TestMigration
       def self.run
-        test_file = ::File.expand_path '../../../tmp/test_migration_file.txt', __FILE__
-        FileUtils.touch test_file
-        "Returning a value as a result of the run method"
+        Temporary::UserDataModel.add(username: 'matt')
       end
 
       def self.revert
@@ -19,7 +17,12 @@ module MinceMigrator
       end
 
       module Temporary
-        # Migration dependent classes go here
+        class UserDataModel
+          include Mince::DataModel
+
+          data_collection :users
+          data_fields :username, :email, :first_name, :last_name
+        end
       end
     end
   end

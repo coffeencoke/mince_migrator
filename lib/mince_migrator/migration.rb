@@ -30,6 +30,10 @@ module MinceMigrator
       val.split("_").map{|a| a.split(" ") }.flatten
     end
 
+    def run
+      @klass.run
+    end
+
     def self.find(name)
       if file = Migrations::File.find(name)
         new_from_file file

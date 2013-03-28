@@ -28,6 +28,12 @@ describe MinceMigrator::Migration do
       its(:name) { should == name_group[:out] }
     end
   end
+
+  it 'can run the migration' do
+    return_value = mock
+    klass.should_receive(:run).and_return(return_value)
+    subject.run.should == return_value
+  end
 end
 
 describe MinceMigrator::Migration, 'class methods:' do

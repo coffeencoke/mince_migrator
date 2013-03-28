@@ -14,7 +14,7 @@ module MinceMigrator
       end
 
       def run_migration
-
+        migration.run
       end
 
       def reasons_for_failure
