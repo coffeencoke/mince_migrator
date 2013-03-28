@@ -1,12 +1,16 @@
 module MinceMigrator
   module Migrations
-    class Runner
-      def initialize(name)
+    require_relative '../migration'
 
+    class Runner
+      attr_reader :name
+
+      def initialize(name)
+        @name = name
       end
 
       def can_run_migration?
-        true
+        !!migration
       end
 
       def run_migration
@@ -15,6 +19,10 @@ module MinceMigrator
 
       def reasons_for_failure
         ""
+      end
+
+      def migration
+        @migration||= Migration.find(name)
       end
     end
   end

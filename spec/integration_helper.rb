@@ -8,5 +8,7 @@ RSpec.configure do |config|
     if File.exists?(MinceMigrator::Config.migration_dir)
       FileUtils.rm_r MinceMigrator::Config.migration_dir
     end
+
+    #Mince::Config.interface.clear
   end
 end

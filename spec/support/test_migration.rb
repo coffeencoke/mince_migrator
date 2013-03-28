@@ -4,6 +4,8 @@ module MinceMigrator
 
     module TestMigration
       def self.run
+        test_file = ::File.expand_path '../../../tmp/test_migration_file.txt', __FILE__
+        FileUtils.touch test_file
         "Returning a value as a result of the run method"
       end
 

@@ -10,12 +10,16 @@ describe 'Running a migration' do
     its(:can_run_migration?) { should be_false }
   end
 
-  context 'when the migration exists' do
+  pending 'when the migration exists' do
     let(:name) { "test migration" }
 
     its(:reasons_for_failure) { should be_empty }
     its(:can_run_migration?) { should be_true }
 
-    it 'can run the migration'
+    it 'can run the migration' do
+      subject.run_migration.should == true
+      test_file = File.expand_path '../../tmp/test_migration_file.txt', __FILE__
+      File.exists?(test_file).should be_true
+    end
   end
 end
