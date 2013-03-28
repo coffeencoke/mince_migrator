@@ -21,5 +21,6 @@ describe MinceMigrator::Migrations::Runner do
     end
 
     its(:can_run_migration?) { should be_false }
+    its(:reasons_for_failure) { should == 'Migration does not exist' }
   end
 end

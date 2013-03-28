@@ -18,7 +18,9 @@ module MinceMigrator
       end
 
       def reasons_for_failure
-        ""
+        if !can_run_migration?
+          "Migration does not exist"
+        end
       end
 
       def migration

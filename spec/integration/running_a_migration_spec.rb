@@ -3,8 +3,8 @@ require_relative '../integration_helper'
 describe 'Running a migration' do
   subject { MinceMigrator::Migrations::Runner.new(name) }
 
-  pending 'when the migration could not be found' do
-    let(:name) { mock 'migration that does not exist' }
+  context 'when the migration could not be found' do
+    let(:name) { 'migration that does not exist' }
 
     its(:reasons_for_failure) { should == "Migration does not exist" }
     its(:can_run_migration?) { should be_false }
@@ -16,7 +16,7 @@ describe 'Running a migration' do
     let(:db_dir) { MinceMigrator::Config.migration_dir }
     let(:data_model) { MinceMigrator::Migrations::TestMigration::Temporary::UserDataModel }
 
-    its(:reasons_for_failure) { should be_empty }
+    its(:reasons_for_failure) { should be_nil }
     its(:can_run_migration?) { should be_true }
 
     before do
