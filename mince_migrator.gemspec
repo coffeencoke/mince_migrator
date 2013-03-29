@@ -14,45 +14,12 @@ Gem::Specification.new do |s|
   s.rubyforge_project = s.name
   s.has_rdoc = true
 
-  s.files         = %w(
-    bin/mince_migrator
-    lib/mince_migrator.rb
-    lib/mince_migrator/version.rb
-    lib/mince_migrator/creator.rb
-    lib/mince_migrator/config.rb
-    lib/mince_migrator/deleter.rb
-    lib/mince_migrator/list.rb
-    lib/mince_migrator/list_report.rb
-    lib/mince_migrator/migration.rb
-    lib/mince_migrator/migrations/file.rb
-    lib/mince_migrator/migrations/loader.rb
-    lib/mince_migrator/migrations/runner.rb
-    lib/mince_migrator/migrations/template.mustache
-    lib/mince_migrator/migrations/template.rb
-    lib/mince_migrator/migrations/versioned_file.rb
-  )
-
-  s.test_files    = %w(
-    spec/integration_helper.rb
-    spec/integration/create_a_migration_spec.rb
-    spec/integration/deleting_a_migration_spec.rb
-    spec/integration/list_all_migrations_spec.rb
-    spec/integration/running_a_migration_spec.rb
-    spec/support/invalid_interface_migration.rb
-    spec/support/not_a_migration.rb
-    spec/support/test_migration.rb
-    spec/units/mince_migrator/creator_spec.rb
-    spec/units/mince_migrator/deleter_spec.rb
-    spec/units/mince_migrator/list_spec.rb
-    spec/units/mince_migrator/migration_spec.rb
-    spec/units/mince_migrator/migrations/file_spec.rb
-    spec/units/mince_migrator/migrations/loader_spec.rb
-    spec/units/mince_migrator/migrations/template_spec.rb
-    spec/units/mince_migrator/migrations/versioned_file_spec.rb
-  )
+  s.files = Dir.glob("{bin,lib}/**/*") + %w(LICENSE.txt README.md)
+  s.test_files = Dir.glob('spec/**/*.rb')
   s.require_paths = ["lib"]
   s.bindir = 'bin'
   s.executables << 'mince_migrator'
+  s.license = "MIT"
 
   s.required_ruby_version = ">= 1.9.3"
   s.add_runtime_dependency "mince", "~> 2.0"

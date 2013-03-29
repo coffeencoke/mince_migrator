@@ -13,7 +13,7 @@ describe MinceMigrator::Migrations::Loader do
     it 'loads the migration into memory' do
       subject.call
 
-      expected_klass.run.should == "Returning a value as a result of the run method"
+      expected_klass.should == expected_klass
     end
   end
 
