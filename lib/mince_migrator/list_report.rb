@@ -4,8 +4,12 @@ module MinceMigrator
   class ListReport
     include CommandLineReporter
 
+    attr_reader :sum_ran, :sum_not_ran
+
     def initialize(list)
       @list = list
+      @sum_ran = 0
+      @sum_not_ran = 0
     end
 
     def run
@@ -29,11 +33,34 @@ module MinceMigrator
         end
       end
 
-      footer title: "Total Migrations: #{@list.all.size}", bold: true, color: 'green'
+      vertical_spacing 2
+
+      table border: false do
+        row do
+          column "Ran", width: 6
+          column sum_ran, color: 'green', width: 5
+          column "Not ran", width: 8
+          column sum_not_ran, color: 'red', width: 5
+        end
+        row bold: true do
+          column "Total", width: 6
+          column total_number_of_migrations, width: 5
+        end
+      end
+    end
+
+    def total_number_of_migrations
+      sum_ran + sum_not_ran
     end
 
     def status_column(migration)
-      color = migration.ran? ? 'green' : 'red'
+      if migration.ran?
+        @sum_ran += 1
+        color = 'green'
+      else
+        @sum_not_ran += 1
+        color = 'red'
+      end
       column migration.status, color: color
     end
   end

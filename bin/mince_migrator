@@ -25,7 +25,7 @@ command :create do |c|
       creator.create_migration
       puts "Migration created at #{creator.migration_file_relative_path}"
     else
-      help_now!("You did not provide a name, a name is required")
+      help_now!(creator.reasons_for_failure)
     end
   end
 end
@@ -76,15 +76,19 @@ desc 'Runs all migrations that have not yet been ran'
 command :run_all do |c|
   c.action do
     list = MinceMigrator::List.new('not ran')
-    list.all.each do |migration|
-      runner = MinceMigrator::Migrations::Runner.new(migration: migration)
-      if runner.can_run_migration?
-        puts "Running #{migration.name}..."
-        runner.run_migration
-        puts "Migration finished."
-      else
-        help_now!(runner.reasons_for_failure)
+    if list.all.any?
+      list.all.each do |migration|
+        runner = MinceMigrator::Migrations::Runner.new(migration: migration)
+        if runner.can_run_migration?
+          puts "Running #{migration.name}..."
+          runner.run_migration
+          puts "Migration finished."
+        else
+          help_now!(runner.reasons_for_failure)
+        end
       end
+    else
+      puts "There were no migrations to run."
     end
   end
 end

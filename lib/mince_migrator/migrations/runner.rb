@@ -9,7 +9,6 @@ module MinceMigrator
 
       def initialize(options)
         if options[:migration]
-          puts 'migration exists'
           @migration = options[:migration]
           @name = migration.name
         elsif options[:name]
