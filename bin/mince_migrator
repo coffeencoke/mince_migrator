@@ -48,7 +48,39 @@ desc 'Reverts a migration'
 arg_name 'Name of migration'
 command :revert do |c|
   c.action do |global_options,options,args|
-    puts "Revert is not yet implemented"
+    # Allow multiple ways to provide a name
+    if args.size > 1
+      args = [args.join(" ")]
+    end
+
+    reverter = MinceMigrator::Reverter.new(*args)
+    if reverter.can_revert_migration?
+      puts "Migration is being reverted..."
+      reverter.revert_migration
+      puts "Migration reverted successfully"
+    else
+      help_now!(reverter.reasons_for_failure)
+    end
+  end
+end
+
+desc 'Deletes a migration'
+arg_name 'Name of migration'
+command :delete do |c|
+  c.action do |global_options,options,args|
+    # Allow multiple ways to provide a name
+    if args.size > 1
+      args = [args.join(" ")]
+    end
+
+    reverter = MinceMigrator::Deleter.new(*args)
+    if reverter.can_delete_migration?
+      puts "Migration is being deleted..."
+      reverter.delete_migration
+      puts "Migration deleted successfully"
+    else
+      help_now!(reverter.reasons_for_failure)
+    end
   end
 end
 
