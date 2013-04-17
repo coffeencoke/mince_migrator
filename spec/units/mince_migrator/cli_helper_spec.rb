@@ -79,5 +79,37 @@ module MinceMigrator
         end
       end
     end
+
+    describe 'creating a migration' do
+      let(:creator) { mock migration_file_relative_path: mock }
+
+      before do
+        Creator.stub(:new).with(options).and_return(creator)
+      end
+
+      context 'when the migration can be created' do
+        before do
+          creator.stub(can_create_migration?: true, name: mock)
+        end
+
+        it 'creates it' do
+          creator.should_receive(:create_migration)
+
+          subject.create_migration(options)
+        end
+      end
+
+      context 'when the migration cannot be created' do
+        before do
+          creator.stub(can_create_migration?: false, reasons_for_failure: reasons_for_failure)
+        end
+
+        it 'fails with an error message' do
+          subject.should_receive(:help_now!).with(reasons_for_failure)
+
+          subject.create_migration(options)
+        end
+      end
+    end
   end
 end
