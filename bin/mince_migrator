@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 require 'gli'
-require 'mince_migrator'
-require 'mince_migrator/list_report'
-require 'mince_migrator/status_report'
+require 'mince_migrator/version'
+require 'mince_migrator/list'
 require 'mince_migrator/cli_helper'
 
 include GLI::App

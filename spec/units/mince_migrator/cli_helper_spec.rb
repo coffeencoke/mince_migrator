@@ -47,5 +47,37 @@ module MinceMigrator
         end
       end
     end
+
+    describe 'running a migration' do
+      let(:runner) { mock }
+
+      before do
+        Migrations::Runner.stub(:new).with(options).and_return(runner)
+      end
+
+      context 'when the migration can be ran' do
+        before do
+          runner.stub(can_run_migration?: true, name: mock)
+        end
+
+        it 'runs it' do
+          runner.should_receive(:run_migration)
+
+          subject.run_migration(options)
+        end
+      end
+
+      context 'when the migration cannot be ran' do
+        before do
+          runner.stub(can_run_migration?: false, reasons_for_failure: reasons_for_failure)
+        end
+
+        it 'fails with an error message' do
+          subject.should_receive(:help_now!).with(reasons_for_failure)
+
+          subject.run_migration(options)
+        end
+      end
+    end
   end
 end
