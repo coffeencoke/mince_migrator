@@ -2,21 +2,10 @@
 
 [![Travis CI](https://travis-ci.org/coffeencoke/mince_migrator.png)](https://travis-ci.org/#!/coffeencoke/mince_migrator)
 
-**This is not yet released, this read me is a roadmap for what to do, it is not necessarily what has been done yet.**
-
-Mince Migrator is a library that provides a way to run database migrations for your application using the [Mince libraries](https://github.com/coffeencoke/mince).
+Mince Migrator is a library that provides a way to run database
+migrations for your ruby applications.
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'mince_migrator'
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
 
     $ gem install mince_migrator
 
@@ -28,45 +17,14 @@ Or install it yourself as:
 
 ### Implement your migration
 
-The template provided to you for a migration looks like this:
+The output of creating the migration will tell you where the migration was created.
 
-```ruby
-module MinceMigrator
-  module Migrations
-  	module LoadAdminUsers
-  	  def self.run
-  	  	# Actual migration goes here
-  	  end
-  	  
-  	  def self.revert
-  	  	# In case you need to revert this one migration
-  	  end
-  	
-  	  # So you can change the order to run more easily
-  	  def self.time_created
-  	  	"2013-02-23 19:03:27 UTC"
-  	  end  	    	  
-  	  
-  	  module Temporary
-  	  	# Migration dependent classes go here
-  	  end
-  	end
-  end
-end
-```
-
-For an evolving explanation for the Temporary module, view [Migrating With Temporary Classes](https://github.com/coffeencoke/mince_migrator/wiki/migrating-with-temporary-classes).
+Implement the `run` method with the behavior of your migration.
 
 ### Run your single migration
 
 	$ mince_migrator run "Load admin users"
 	
-*You can use any of the following as the name for the above command:*
-
-* `Load admin users` (in quotes)* 
-* `LoadAdminUsers`
-* `load_admin_users`
-
 ### Revert your single migration
 
 	$ mince_migrator revert "Load admin users"
@@ -77,15 +35,11 @@ For an evolving explanation for the Temporary module, view [Migrating With Tempo
 	
 ### Check the status of a migration
 
-	$ bundle exec mince_migrator status "Load admin users"
+	$ mince_migrator show "Load admin users"
 
 ### View all available commands
 
-*Run any of the following*
-
-	$ mince_migrator
 	$ mince_migrator --help
-	$ mince_migrator help
 
 ## Contributing
 
