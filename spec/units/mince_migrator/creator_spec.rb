@@ -2,7 +2,7 @@ require_relative '../../../lib/mince_migrator/creator'
 
 describe MinceMigrator::Creator do
   context 'when a name is not provided' do
-    let(:migration_name) { mock valid?: false, reasons_for_failure: mock }
+    let(:migration_name) { mock valid?: false, reasons_for_failure: mock, value: mock }
 
     before do
       MinceMigrator::Migrations::Name.stub(:new).with(nil).and_return(migration_name)
@@ -16,7 +16,7 @@ describe MinceMigrator::Creator do
     subject { described_class.new(name) }
 
     let(:name) { mock }
-    let(:migration_name) { mock }
+    let(:migration_name) { mock value: mock}
 
     before do
       MinceMigrator::Migrations::Name.stub(:new).with(name).and_return(migration_name)

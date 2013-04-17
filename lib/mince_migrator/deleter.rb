@@ -5,10 +5,17 @@ module MinceMigrator
   require_relative 'ran_migration'
 
   class Deleter
-    attr_reader :name
+    attr_reader :name, :filename, :migration_name, :migration
 
-    def initialize(name)
-      @name = Migrations::Name.new(name)
+    def initialize(options)
+      if options[:migration]
+        @migration = options[:migration]
+        @migration_name = Migrations::Name.new(migration.name)
+      elsif options[:name]
+        @migration_name = Migrations::Name.new(options[:name])
+      end
+      @name = migration_name.value
+      @filename = migration_name.filename
     end
 
     def delete_migration
@@ -21,15 +28,15 @@ module MinceMigrator
     end
 
     def reasons_for_failure
-      "Migration does not exist with name '#{name.value}'" unless can_delete_migration?
+      "Migration does not exist with name '#{name}'" unless can_delete_migration?
     end
 
     def migration_path
-      ::File.join Config.migration_dir, name.filename
+      ::File.join Config.migration_dir, filename
     end
 
     def ran_migration
-      @ran_migration ||= RanMigration.find_by_name(name.value)
+      @ran_migration ||= RanMigration.find_by_name(name)
     end
   end
 end

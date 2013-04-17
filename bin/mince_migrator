@@ -3,44 +3,27 @@ require 'gli'
 require 'mince_migrator'
 require 'mince_migrator/list_report'
 require 'mince_migrator/status_report'
+require 'mince_migrator/cli_helper'
 
 include GLI::App
+include MinceMigrator::CliHelper
 
-program_desc 'Manages migrations for Mince gems'
-
+program_desc 'Manages database migrations for ruby applications'
 version MinceMigrator.version
 
 desc 'Creates a migration'
 arg_name 'Name of migration'
 command :create do |c|
   c.action do |global_options,options,args|
-    # Allow multiple ways to provide a name
-    if args.size > 1
-      args = [args.join(" ")]
-    end
-
-    creator = MinceMigrator::Creator.new(*args)
-    if creator.can_create_migration?
-      puts "Migration is being created..."
-      creator.create_migration
-      puts "Migration created at #{creator.migration_file_relative_path}"
-    else
-      help_now!(creator.reasons_for_failure)
-    end
+    name = args.join(" ")
+    create_migration(name)
   end
 end
 
 desc 'Lists all migrations and their statuses'
 command :list do |c|
   c.action do |global_options,options,args|
-    list = MinceMigrator::List.new
-    if list.all.any?
-      MinceMigrator::ListReport.new(list).run
-    else
-      puts "\nThere are no migrations in the '#{MinceMigrator::Config.migration_relative_dir}' directory.\n".red
-      puts "run the following for more info to create a migration:\n\n"
-      puts "  mince_migrator create --help\n\n".green
-    end
+    list_migrations(MinceMigrator::List.new)
   end
 end
 
@@ -48,18 +31,21 @@ desc 'Reverts a migration'
 arg_name 'Name of migration'
 command :revert do |c|
   c.action do |global_options,options,args|
-    # Allow multiple ways to provide a name
-    if args.size > 1
-      args = [args.join(" ")]
-    end
+    name = args.join(" ")
+    revert_migration(name: name)
+  end
+end
 
-    reverter = MinceMigrator::Reverter.new(*args)
-    if reverter.can_revert_migration?
-      puts "Migration is being reverted..."
-      reverter.revert_migration
-      puts "Migration reverted successfully"
+desc 'Deletes all migrations that have already ran'
+command :delete_ran do |c|
+  c.action do |global_options,options,args|
+    list = MinceMigrator::List.new('ran')
+    if list.all.any?
+      list.all.each do |migration|
+        delete_migration(migration: migration)
+      end
     else
-      help_now!(reverter.reasons_for_failure)
+      puts "No migrations were found."
     end
   end
 end
@@ -68,19 +54,9 @@ desc 'Deletes a migration'
 arg_name 'Name of migration'
 command :delete do |c|
   c.action do |global_options,options,args|
-    # Allow multiple ways to provide a name
-    if args.size > 1
-      args = [args.join(" ")]
-    end
+    name = args.join(" ")
 
-    reverter = MinceMigrator::Deleter.new(*args)
-    if reverter.can_delete_migration?
-      puts "Migration is being deleted..."
-      reverter.delete_migration
-      puts "Migration deleted successfully"
-    else
-      help_now!(reverter.reasons_for_failure)
-    end
+    delete_migration(name: name)
   end
 end
 
@@ -88,19 +64,9 @@ desc 'Runs a migration'
 arg_name 'Name of migration'
 command :run do |c|
   c.action do |global_options,options,args|
-    # Allow multiple ways to provide a name
-    if args.size > 1
-      args = [args.join(" ")]
-    end
+    name = args.join(" ")
 
-    runner = MinceMigrator::Migrations::Runner.new(*args)
-    if runner.can_run_migration?
-      puts "Migration is being ran..."
-      runner.run_migration
-      puts "Migration finished."
-    else
-      help_now!(runner.reasons_for_failure)
-    end
+    run_migration(name: name)
   end
 end
 
@@ -110,14 +76,7 @@ command :run_all do |c|
     list = MinceMigrator::List.new('not ran')
     if list.all.any?
       list.all.each do |migration|
-        runner = MinceMigrator::Migrations::Runner.new(migration: migration)
-        if runner.can_run_migration?
-          puts "Running #{migration.name}..."
-          runner.run_migration
-          puts "Migration finished."
-        else
-          help_now!(runner.reasons_for_failure)
-        end
+        run_migration(migration: migration)
       end
     else
       puts "There were no migrations to run."
@@ -129,17 +88,10 @@ desc 'Shows the details of a migration'
 arg_name 'Name of migration'
 command :show do |c|
   c.action do |global_options,options,args|
-    # Allow multiple ways to provide a name
-    if args.size > 1
-      args = [args.join(" ")]
-    end
+    name = args.join(" ")
 
     if args.any?
-      if migration = MinceMigrator::Migration.find(*args)
-        MinceMigrator::StatusReport.new(migration).run
-      else
-        puts "No migration was found with name: '#{name}'"
-      end
+      show_migration(name)
     else
       puts "You must provide a name"
     end

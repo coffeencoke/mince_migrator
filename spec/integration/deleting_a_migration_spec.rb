@@ -1,7 +1,7 @@
 require_relative '../integration_helper'
 
 describe 'Deleting a migration' do
-  subject { MinceMigrator::Deleter.new(name) }
+  subject { MinceMigrator::Deleter.new(name: name) }
 
   let(:name) { 'name of migration' }
   let(:expected_name) { 'Name of migration' }

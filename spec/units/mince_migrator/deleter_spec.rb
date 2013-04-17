@@ -6,7 +6,7 @@ describe MinceMigrator::Deleter do
   let(:migration_path) { ::File.join(path, migration_name.filename) }
   let(:path) { mock }
   
-  subject { described_class.new(name) }
+  subject { described_class.new(name: name) }
 
   before do
     MinceMigrator::Config.stub(migration_dir: path)
