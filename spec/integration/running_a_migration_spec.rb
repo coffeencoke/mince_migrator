@@ -1,7 +1,7 @@
 require_relative '../integration_helper'
 
 describe 'Running a migration' do
-  subject { MinceMigrator::Migrations::Runner.new(name) }
+  subject { MinceMigrator::Migrations::Runner.new(name: name) }
 
   context 'when the migration could not be found' do
     let(:name) { 'migration that does not exist' }

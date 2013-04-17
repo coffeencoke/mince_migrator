@@ -1,13 +1,22 @@
 require_relative '../../../../lib/mince_migrator/migrations/runner'
 
 describe MinceMigrator::Migrations::Runner do
-  subject { described_class.new(name) }
+  subject { described_class.new(name: name) }
 
   let(:name) { mock }
   let(:validator) { mock }
 
   before do
     Mince::Config.interface = mock
+  end
+
+  describe 'initializing with a migration' do
+    subject { described_class.new(migration: migration) }
+
+    let(:migration) { mock name: 'asdf' }
+
+    its(:migration) { should == migration }
+    its(:name) { should == migration.name }
   end
 
   context 'when the migration exists' do

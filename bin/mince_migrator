@@ -75,7 +75,7 @@ end
 desc 'Runs all migrations that have not yet been ran'
 command :run_all do |c|
   c.action do
-    list = MinceMigrator::List.new(status: 'not ran')
+    list = MinceMigrator::List.new('not ran')
     list.all.each do |migration|
       runner = MinceMigrator::Migrations::Runner.new(migration: migration)
       if runner.can_run_migration?
@@ -86,7 +86,6 @@ command :run_all do |c|
         help_now!(runner.reasons_for_failure)
       end
     end
-    puts "run_all command ran"
   end
 end
 
@@ -117,6 +116,10 @@ pre do |global,command,options,args|
   # chosen command
   # Use skips_pre before a command to skip this block
   # on that command only
+  if File.exists?(MinceMigrator::Config.config_file)
+    require MinceMigrator::Config.config_file
+  end
+
   true
 end
 

@@ -22,5 +22,9 @@ module MinceMigrator
     def self.migration_dir
       instance.migration_dir
     end
+
+    def self.config_file
+      ::File.join(Dir.pwd, 'config', 'mince_migrator.rb')
+    end
   end
 end

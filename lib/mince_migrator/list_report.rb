@@ -22,7 +22,7 @@ module MinceMigrator
         @list.all.each do |migration|
           row  do
             column migration.name
-            column migration.status, color: 'red'
+            status_column(migration)
             column migration.age
             column migration.time_created.strftime("%m/%d/%Y")
           end
@@ -30,6 +30,11 @@ module MinceMigrator
       end
 
       footer title: "Total Migrations: #{@list.all.size}", bold: true, color: 'green'
+    end
+
+    def status_column(migration)
+      color = migration.ran? ? 'green' : 'red'
+      column migration.status, color: color
     end
   end
 end

@@ -43,6 +43,7 @@ describe MinceMigrator::Migration do
     end
 
     its(:ran?) { should be_true }
+    its(:status) { should == 'ran' }
   end
 
   context 'when there is not a record of the migration being ran' do

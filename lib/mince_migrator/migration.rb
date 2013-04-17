@@ -36,7 +36,15 @@ module MinceMigrator
     end
 
     def ran?
-      !!RanMigration.find_by_name(name)
+      !!ran_migration
+    end
+
+    def status
+      ran? ? 'ran' : 'not ran'
+    end
+
+    def ran_migration
+      @ran_migration ||= RanMigration.find_by_name(name)
     end
 
     def self.find(name)

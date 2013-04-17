@@ -7,8 +7,14 @@ module MinceMigrator
     class Runner
       attr_reader :name, :validator
 
-      def initialize(name)
-        @name = name
+      def initialize(options)
+        if options[:migration]
+          puts 'migration exists'
+          @migration = options[:migration]
+          @name = migration.name
+        elsif options[:name]
+          @name = options[:name]
+        end
         @validator = RunnerValidator.new(migration)
       end
 
@@ -27,7 +33,7 @@ module MinceMigrator
       end
 
       def migration
-        @migration||= Migration.find(name)
+        @migration ||= Migration.find(name)
       end
     end
   end
