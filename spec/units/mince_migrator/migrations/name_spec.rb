@@ -33,8 +33,13 @@ module MinceMigrator
         context "when the name is '#{name_group[:in]}'" do
           let(:name) { name_group[:in] }
 
+          before do
+            subject.valid?
+          end
+
           its(:value) { should == name_group[:out] }
           its(:valid?) { should be_false }
+          its(:reasons_for_failure) { should == "Name is invalid, it must start with a character from A-Z or a-z" }
         end
       end
     end

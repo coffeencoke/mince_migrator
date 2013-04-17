@@ -5,6 +5,7 @@ module MinceMigrator
 
       def initialize(value)
         self.value = value if value
+        @errors = []
       end
 
       def filename
@@ -29,7 +30,17 @@ module MinceMigrator
       end
 
       def valid?
-        !value.nil? && value != ''
+        @errors = []
+        validate_value
+        @errors.empty?
+      end
+
+      def reasons_for_failure
+        @errors.join(" ")
+      end
+
+      def validate_value
+        @errors << "Name is invalid, it must start with a character from A-Z or a-z" if value.nil? || value == ''
       end
     end
   end
