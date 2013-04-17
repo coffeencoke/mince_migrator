@@ -19,7 +19,7 @@ describe MinceMigrator::Deleter do
     end
 
     its(:can_delete_migration?) { should be_false }
-    its(:reasons_for_failure)
+    its(:reasons_for_failure) { should == "Migration does not exist with name '#{migration_name.value}'" }
   end
 
   context 'when the migration exists' do

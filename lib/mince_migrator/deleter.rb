@@ -20,6 +20,10 @@ module MinceMigrator
       ::File.exists?(migration_path)
     end
 
+    def reasons_for_failure
+      "Migration does not exist with name '#{name.value}'" unless can_delete_migration?
+    end
+
     def migration_path
       ::File.join Config.migration_dir, name.filename
     end
