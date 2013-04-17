@@ -12,11 +12,11 @@ module MinceMigrator
       ]
 
       valid_names = [
-        { in: 'name', out: 'Name' }, 
-        { in: 'name_of_migration', out: 'Name of migration' }, 
-        { in: 'name of migration', out: 'Name of migration' },
-        { in: '1Name Of Migration', out: 'Name of migration' },
-        { in: 'Name Of Migration 1!@#$%^&*()', out: 'Name of migration 1' }
+        { in: 'name', out: 'Name', filename: 'name.rb' }, 
+        { in: 'name_of_migration', out: 'Name of migration', filename: 'name_of_migration.rb' }, 
+        { in: 'name of migration', out: 'Name of migration', filename: 'name_of_migration.rb' },
+        { in: '1Name Of Migration', out: 'Name of migration', filename: 'name_of_migration.rb' },
+        { in: 'Name Of Migration 1!@#$%^&*()', out: 'Name of migration 1', filename: 'name_of_migration_1.rb' }
       ]
 
       valid_names.each do |name_group|
@@ -24,6 +24,7 @@ module MinceMigrator
           let(:name) { name_group[:in] }
 
           its(:value) { should == name_group[:out] }
+          its(:filename) { should == name_group[:filename] }
           its(:valid?) { should be_true }
         end
       end

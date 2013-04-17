@@ -1,14 +1,16 @@
 require_relative '../../../lib/mince_migrator/deleter'
 
 describe MinceMigrator::Deleter do
-  let(:name) { "name of migration" }
-  let(:migration_path) { ::File.join(path, "name_of_migration.rb") }
+  let(:name) { mock }
+  let(:migration_name) { mock filename: mock }
+  let(:migration_path) { ::File.join(path, migration_name.filename) }
   let(:path) { mock }
   
   subject { described_class.new(name) }
 
   before do
     MinceMigrator::Config.stub(migration_dir: path)
+    MinceMigrator::Migrations::Name.stub(:new).with(name).and_return(migration_name)
   end
 
   context 'when the migration does not exist' do

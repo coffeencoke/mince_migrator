@@ -7,6 +7,10 @@ module MinceMigrator
         self.value = value if value
       end
 
+      def filename
+        @filename ||= "#{value.downcase.gsub(" ", "_")}.rb"
+      end
+
       def value=(val)
         normalized_string = normalized_string(val)
         @value = capitalized_phrase(normalized_string)

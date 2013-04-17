@@ -1,13 +1,13 @@
 module MinceMigrator
-  require_relative 'migrations/file'
   require_relative 'config'
   require 'fileutils'
+  require_relative 'migrations/name'
 
   class Deleter
     attr_reader :name
 
     def initialize(name)
-      @name = name.gsub(" ", "_").downcase
+      @name = Migrations::Name.new(name)
     end
 
     def delete_migration
@@ -19,7 +19,7 @@ module MinceMigrator
     end
 
     def migration_path
-      ::File.join Config.migration_dir, "#{name}.rb"
+      ::File.join Config.migration_dir, name.filename
     end
   end
 end
