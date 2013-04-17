@@ -5,18 +5,19 @@ module MinceMigrator
   require_relative 'config'
 
   class Creator
-    attr_reader :name
+    attr_reader :name, :migration_name
 
     def initialize(name=nil)
-      @name = Migrations::Name.new(name)
+      @migration_name = Migrations::Name.new(name)
+      @name = migration_name.value
     end
 
     def can_create_migration?
-      name.valid?
+      migration_name.valid?
     end
 
     def reasons_for_failure
-      name.reasons_for_failure
+      migration_name.reasons_for_failure
     end
 
     def create_migration
@@ -31,7 +32,7 @@ module MinceMigrator
     end
 
     def versioned_file
-      @versioned_file ||= Migrations::VersionedFile.new(name.value)
+      @versioned_file ||= Migrations::VersionedFile.new(name)
     end
 
     def migration_file_relative_path
