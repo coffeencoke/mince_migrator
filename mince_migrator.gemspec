@@ -35,5 +35,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "debugger", "~> 1.2"
   s.add_development_dependency "rb-fsevent", "~> 0.9.0"
   s.add_development_dependency "hashy_db", "~> 2.0"
+  s.add_development_dependency "mince_mongo_db", "~> 1.0"
 end
 
