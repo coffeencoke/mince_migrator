@@ -19,5 +19,9 @@ module MinceMigrator
       data = data_model.find_by_field(:name, name)
       new data if data
     end
+
+    def delete
+      data_model.delete_by_params(name: name)
+    end
   end
 end

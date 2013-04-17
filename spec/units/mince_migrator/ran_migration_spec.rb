@@ -8,6 +8,12 @@ describe MinceMigrator::RanMigration do
   its(:data_model) { should == MinceMigrator::RanMigrationDataModel }
   its(:fields){ should == [:name] }
   its(:name) { should == name }
+
+  it 'can be deleted' do
+    described_class.data_model.should_receive(:delete_by_params).with(name: name)
+
+    subject.delete
+  end
 end
 
 describe MinceMigrator::RanMigration, 'Class methods:' do
