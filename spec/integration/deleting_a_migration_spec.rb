@@ -4,6 +4,7 @@ describe 'Deleting a migration' do
   subject { MinceMigrator::Deleter.new(name) }
 
   let(:name) { 'name of migration' }
+  let(:expected_name) { 'Name of migration' }
 
   context 'when the migration exists' do
     before do
@@ -34,5 +35,6 @@ describe 'Deleting a migration' do
 
   context 'when the migration does not exist' do
     its(:can_delete_migration?) { should be_false }
+    its(:reasons_for_failure) { should == "Migration does not exist with name '#{expected_name}'" }
   end
 end
