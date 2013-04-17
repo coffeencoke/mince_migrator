@@ -32,7 +32,13 @@ Implement the `run` method with the behavior of your migration.
 ### Run all migrations that have not yet been ran
 
 	$ mince_migrator run_all
-	
+
+### View all migrations
+
+*My favorite!*
+
+	$ mince_migrator list
+
 ### Check the status of a migration
 
 	$ mince_migrator show "Load admin users"
