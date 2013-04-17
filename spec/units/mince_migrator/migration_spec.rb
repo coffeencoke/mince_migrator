@@ -16,19 +16,6 @@ describe MinceMigrator::Migration do
   its(:path) { should == path }
   its(:age) { should == '6d' }
 
-  [
-    { in: 'name', out: 'Name' }, 
-    { in: 'name_of_migration', out: 'Name of migration' }, 
-    { in: 'name of migration', out: 'Name of migration' },
-    { in: 'Name Of Migration', out: 'Name of migration' }
-  ].each do |name_group|
-    context "when the name is '#{name_group[:in]}'" do
-      let(:name) { name_group[:in] }
-
-      its(:name) { should == name_group[:out] }
-    end
-  end
-
   it 'can run the migration' do
     return_value = mock
     klass.should_receive(:run).and_return(return_value)

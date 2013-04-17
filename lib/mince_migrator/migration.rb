@@ -3,6 +3,7 @@ require 'debugger'
 module MinceMigrator
   require_relative 'migrations/file'
   require_relative 'ran_migration'
+  require_relative 'migrations/name'
 
   class Migration
     attr_reader :time_created, :name, :status, :relative_path, :path
@@ -11,7 +12,6 @@ module MinceMigrator
       @klass = options[:klass]
       @time_created = @klass.time_created
       self.name = options[:name]
-      @status = "not ran"
       @relative_path = options[:relative_path]
       @path = options[:path]
     end
@@ -21,14 +21,7 @@ module MinceMigrator
     end
 
     def name=(val)
-      words = split_name(val).each_with_index.map do |word, i|
-        i == 0 ? word.capitalize : word.downcase
-      end
-      @name = words.join(" ")
-    end
-
-    def split_name(val)
-      val.split("_").map{|a| a.split(" ") }.flatten
+      @name ||= Migrations::Name.new(val).value
     end
 
     def run

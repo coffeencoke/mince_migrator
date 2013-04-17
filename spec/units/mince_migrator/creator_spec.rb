@@ -2,26 +2,46 @@ require_relative '../../../lib/mince_migrator/creator'
 
 describe MinceMigrator::Creator do
   context 'when a name is not provided' do
-    it 'cannot create the migration' do
-      subject.can_create_migration?.should be_false
+    let(:migration_name) { mock valid?: false, reasons_for_failure: mock }
+
+    before do
+      MinceMigrator::Migrations::Name.stub(:new).with(nil).and_return(migration_name)
     end
+
+    its(:can_create_migration?) { should be_false }
+    its(:reasons_for_failure) { should == migration_name.reasons_for_failure }
   end
 
   context 'when a name is provided' do
-    subject { described_class.new(migration_name) }
+    subject { described_class.new(name) }
 
+    let(:name) { mock }
     let(:migration_name) { mock }
-    let(:opened_file) { mock write: nil, close: nil }
-    let(:migration_file) { mock path: mock, full_path: mock, body: mock, full_relative_path: mock }
-    let(:versioned_file) { mock next_unused_version: migration_file }
 
     before do
-      FileUtils.stub(:mkdir_p).with(MinceMigrator::Config.migration_dir)
+      MinceMigrator::Migrations::Name.stub(:new).with(name).and_return(migration_name)
     end
 
-    context 'when no migrations exist with this name' do
+    context 'when the name is invalid' do
+      let(:reasons_for_failure) { mock }
+
       before do
-        MinceMigrator::Migrations::VersionedFile.stub(:new).with(migration_name).and_return(versioned_file)
+        migration_name.stub(valid?: false, reasons_for_failure: reasons_for_failure)
+      end
+
+      its(:can_create_migration?) { should be_false }
+      its(:reasons_for_failure) { should == reasons_for_failure }
+    end
+
+    context 'when the name is valid' do
+      let(:opened_file) { mock write: nil, close: nil }
+      let(:migration_file) { mock path: mock, full_path: mock, body: mock, full_relative_path: mock }
+      let(:versioned_file) { mock next_unused_version: migration_file }
+
+      before do
+        migration_name.stub(valid?: true, value: mock)
+        FileUtils.stub(:mkdir_p).with(MinceMigrator::Config.migration_dir)
+        MinceMigrator::Migrations::VersionedFile.stub(:new).with(migration_name.value).and_return(versioned_file)
         ::File.stub(:open).with(migration_file.full_path, 'w+').and_return(opened_file)
         ::File.stub(:exists?).with(migration_file.full_path).and_return(false)
       end
