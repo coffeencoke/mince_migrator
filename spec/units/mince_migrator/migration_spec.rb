@@ -6,7 +6,7 @@ describe MinceMigrator::Migration do
   subject { described_class.new(options) }
 
   let(:options) { { klass: klass, name: name, relative_path: relative_path, path: path } }
-  let(:klass) { mock time_created: Time.now.utc - 500000 }
+  let(:klass) { mock time_created: Time.now.utc - 550000 }
   let(:name) { "name_of_migration" }
   let(:relative_path) { mock }
   let(:path) { mock }
@@ -20,6 +20,12 @@ describe MinceMigrator::Migration do
     return_value = mock
     klass.should_receive(:run).and_return(return_value)
     subject.run.should == return_value
+  end
+
+  it 'can revert the migration' do
+    return_value = mock
+    klass.should_receive(:revert).and_return(return_value)
+    subject.revert.should == return_value
   end
 
   context 'when there is a record of the migration being ran' do

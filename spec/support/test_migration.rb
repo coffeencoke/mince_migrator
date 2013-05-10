@@ -8,7 +8,7 @@ module MinceMigrator
       end
 
       def self.revert
-        "Returning a value as a result of the revert method"
+        Temporary::UserDataModel.delete_by_params(username: 'matt')
       end
 
       # So you can change the order to run more easily
