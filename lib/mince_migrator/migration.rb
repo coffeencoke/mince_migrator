@@ -28,6 +28,10 @@ module MinceMigrator
       @klass.run
     end
 
+    def revert
+      @klass.revert
+    end
+
     def ran?
       !!ran_migration
     end

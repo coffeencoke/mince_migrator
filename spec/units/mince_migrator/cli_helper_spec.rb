@@ -111,5 +111,37 @@ module MinceMigrator
         end
       end
     end
+
+    describe 'reverting a migration' do
+      let(:reverter) { mock }
+
+      before do
+        Reverter.stub(:new).with(options).and_return(reverter)
+      end
+
+      context 'when the migration can be reverted' do
+        before do
+          reverter.stub(can_revert_migration?: true, name: mock)
+        end
+
+        it 'reverts it' do
+          reverter.should_receive(:revert_migration)
+
+          subject.revert_migration(options)
+        end
+      end
+
+      context 'when the migration cannot be reverted' do
+        before do
+          reverter.stub(can_revert_migration?: false, reasons_for_failure: reasons_for_failure)
+        end
+
+        it 'fails with an error message' do
+          subject.should_receive(:help_now!).with(reasons_for_failure)
+
+          subject.revert_migration(options)
+        end
+      end
+    end
   end
 end

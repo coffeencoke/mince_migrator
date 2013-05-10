@@ -1,6 +1,7 @@
 module MinceMigrator
   require_relative 'deleter'
   require_relative 'creator'
+  require_relative 'reverter'
   require_relative 'list'
   require_relative 'migrations/runner'
   require_relative 'list_report'
