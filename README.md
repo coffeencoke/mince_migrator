@@ -47,6 +47,22 @@ Implement the `run` method with the behavior of your migration.
 
 	$ mince_migrator --help
 
+## Bootstrap your application
+
+You can bootsrap the mince migrator by adding a file located at `config/mince_migrator.rb` in your app's root directory.
+
+For Rails, you will want to add the following:
+
+```
+# This will load the correct database and mince interface
+# for us to use to run our migrations.
+environment = ENV['RAILS_ENV']||'development'
+
+require_relative 'environment'
+```
+
+But you can add whatever you want in order to bootstrap your application in this file.
+
 ## Contributing
 
 1. Fork it
