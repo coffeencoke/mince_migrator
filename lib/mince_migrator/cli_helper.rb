@@ -5,6 +5,7 @@ module MinceMigrator
   require_relative 'list'
   require_relative 'migrations/runner'
   require_relative 'list_report'
+  require_relative 'status_report'
 
   module CliHelper
     def delete_migration(options)

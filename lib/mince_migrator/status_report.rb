@@ -17,7 +17,7 @@ module MinceMigrator
       table border: false do
         row do
           column 'Name', width: 15
-          column migration.name, width: 30
+          column migration.name, width: 100
         end
         row do
           column 'Status'

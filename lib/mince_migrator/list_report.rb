@@ -25,7 +25,11 @@ module MinceMigrator
         end
         @list.all.each do |migration|
           row  do
-            column migration.name
+            if migration.name.size > 40
+              column "#{migration.name[0..36]}..."
+            else
+              column migration.name
+            end
             status_column(migration)
             column migration.age
             column migration.time_created.strftime("%m/%d/%Y")
