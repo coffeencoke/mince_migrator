@@ -1,0 +1,133 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>Mince Migrator</title>
+  <meta name="description" content="Database migration library for ruby applications">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Mince Migrator</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">Database migration library for ruby applications</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/coffeencoke/mince_migrator/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/coffeencoke/mince_migrator/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/coffeencoke/mince_migrator" class="code">View Mince Migrator on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h2>1. Install</h2>
+
+<pre><code>$ gem install mince_migrator
+</code></pre>
+
+<h2>2. Use</h2>
+
+<pre><code>$ mince_migrator create Load admin users
+# Implement your migration by opening db/migration/load_admin_users.rb
+$ mince_migrator run Load admin users
+</code></pre>
+
+<h2>3. Learn more</h2>
+
+<h3>Bootstrap your application</h3>
+
+<p>You can bootstrap your app by adding a file located at <code>config/mince_migrator.rb</code> in your app's root directory.</p>
+
+<h4>Rails</h4>
+
+<p>For Rails you will want to add the following:</p>
+
+<div class="highlight"><pre><span class="c1"># This will load the correct database and mince interface</span>
+<span class="c1"># for us to use to run our migrations.</span>
+<span class="n">environment</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">'RAILS_ENV'</span><span class="o">]||</span><span class="s1">'development'</span>
+
+<span class="n">require_relative</span> <span class="s1">'environment'</span>
+</pre></div>
+
+<h3>Other Commands</h3>
+
+<pre><code># Revert your single migration
+$ mince_migrator revert "Load admin users"
+
+# Run all migrations that have not yet been ran
+$ mince_migrator run_all
+
+# View all migrations
+$ mince_migrator list # *My favorite!*
+
+# Check the status of a migration
+$ mince_migrator show "Load admin users"
+
+# View all available commands
+$ mince_migrator --help
+</code></pre>
+
+<h2>Mince</h2>
+
+<p>Although you do not need to use <a href="https://coffeencoke.github.com/mince">Mince</a> in order to use Mince Migrator, however, it makes sense to do so.  But if you like this migration tool more than your current ORMs migrator, than you can use this in tandem with your other ORM.</p>
+
+<h2>License</h2>
+
+<p>Copyright (c) 2013 Matt Simpson</p>
+
+<p>MIT License</p>
+
+<p>View the LICENSE.txt file included in the source</p>
+
+<h2>Build status</h2>
+
+<p><a href="https://travis-ci.org/#!/coffeencoke/mince_migrator"><img src="https://travis-ci.org/coffeencoke/mince_migrator.png" alt="Travis CI"></a></p>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/coffeencoke" class="avatar"><img src="https://secure.gravatar.com/avatar/3aae3a6683f9fbf71b9ae73f4e40f35d?s=30&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png" width="48" height="48"/></a> <a href="https://github.com/coffeencoke">coffeencoke</a> maintains <a href="https://github.com/coffeencoke/mince_migrator">Mince Migrator</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="http://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/coffeencoke/mince_migrator/tarball/master" class="tar">tar</a><a href="https://github.com/coffeencoke/mince_migrator/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-41140081-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+</body>
+</html>
