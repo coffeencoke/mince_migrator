@@ -4,39 +4,46 @@ require 'mince_migrator/version'
 require 'mince_migrator/list'
 require 'mince_migrator/cli_helper'
 
-include GLI::App
 include MinceMigrator::CliHelper
 
-program_desc 'Manages database migrations for ruby applications'
-version MinceMigrator.version
+module MinceMigrator
+  class CliApp
+    include GLI::App
+  end
+end
 
-desc 'Creates a migration'
-arg_name 'Name of migration'
-command :create do |c|
+mince_migrator_cli_app = MinceMigrator::CliApp.new
+
+mince_migrator_cli_app.program_desc 'Manages database migrations for ruby applications'
+mince_migrator_cli_app.version MinceMigrator.version
+
+mince_migrator_cli_app.desc 'Creates a migration'
+mince_migrator_cli_app.arg_name 'Name of migration'
+mince_migrator_cli_app.command :create do |c|
   c.action do |global_options,options,args|
     name = args.join(" ")
     create_migration(name)
   end
 end
 
-desc 'Lists all migrations and their statuses'
-command :list do |c|
+mince_migrator_cli_app.desc 'Lists all migrations and their statuses'
+mince_migrator_cli_app.command :list do |c|
   c.action do |global_options,options,args|
     list_migrations(MinceMigrator::List.new)
   end
 end
 
-desc 'Reverts a migration'
-arg_name 'Name of migration'
-command :revert do |c|
+mince_migrator_cli_app.desc 'Reverts a migration'
+mince_migrator_cli_app.arg_name 'Name of migration'
+mince_migrator_cli_app.command :revert do |c|
   c.action do |global_options,options,args|
     name = args.join(" ")
     revert_migration(name: name)
   end
 end
 
-desc 'Deletes all migrations that have already ran'
-command :delete_ran do |c|
+mince_migrator_cli_app.desc 'Deletes all migrations that have already ran'
+mince_migrator_cli_app.command :delete_ran do |c|
   c.action do |global_options,options,args|
     list = MinceMigrator::List.new('ran')
     if list.all.any?
@@ -49,9 +56,9 @@ command :delete_ran do |c|
   end
 end
 
-desc 'Deletes a migration'
-arg_name 'Name of migration'
-command :delete do |c|
+mince_migrator_cli_app.desc 'Deletes a migration'
+mince_migrator_cli_app.arg_name 'Name of migration'
+mince_migrator_cli_app.command :delete do |c|
   c.action do |global_options,options,args|
     name = args.join(" ")
 
@@ -59,9 +66,9 @@ command :delete do |c|
   end
 end
 
-desc 'Runs a migration'
-arg_name 'Name of migration'
-command :run do |c|
+mince_migrator_cli_app.desc 'Runs a migration'
+mince_migrator_cli_app.arg_name 'Name of migration'
+mince_migrator_cli_app.command :run do |c|
   c.action do |global_options,options,args|
     name = args.join(" ")
 
@@ -69,8 +76,8 @@ command :run do |c|
   end
 end
 
-desc 'Runs all migrations that have not yet been ran'
-command :run_all do |c|
+mince_migrator_cli_app.desc 'Runs all migrations that have not yet been ran'
+mince_migrator_cli_app.command :run_all do |c|
   c.action do
     list = MinceMigrator::List.new('not ran')
     if list.all.any?
@@ -83,9 +90,9 @@ command :run_all do |c|
   end
 end
 
-desc 'Shows the details of a migration'
-arg_name 'Name of migration'
-command :show do |c|
+mince_migrator_cli_app.desc 'Shows the details of a migration'
+mince_migrator_cli_app.arg_name 'Name of migration'
+mince_migrator_cli_app.command :show do |c|
   c.action do |global_options,options,args|
     name = args.join(" ")
 
@@ -97,7 +104,7 @@ command :show do |c|
   end
 end
 
-pre do |global,command,options,args|
+mince_migrator_cli_app.pre do |global,command,options,args|
   # Pre logic here
   # Return true to proceed; false to abort and not call the
   # chosen command
@@ -110,16 +117,18 @@ pre do |global,command,options,args|
   true
 end
 
-post do |global,command,options,args|
+mince_migrator_cli_app.post do |global,command,options,args|
   # Post logic here
   # Use skips_post before a command to skip this
   # block on that command only
 end
 
-on_error do |exception|
+mince_migrator_cli_app.on_error do |exception|
   # Error logic here
   # return false to skip default error handling
-  true
+  puts exception
+  puts exception.backtrace.join("\n")
+  false
 end
 
-exit run(ARGV)
+exit mince_migrator_cli_app.run(ARGV)
