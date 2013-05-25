@@ -14,7 +14,13 @@ describe MinceMigrator::Migration do
   its(:time_created) { should == klass.time_created }
   its(:relative_path) { should == relative_path }
   its(:path) { should == path }
-  its(:age) { should == '6d' }
+  its(:age) do 
+    expected = if Time.now.utc.hour < 12
+      should include '7d'
+    else
+      should include '6d'
+    end
+  end
 
   it 'can run the migration' do
     return_value = mock
