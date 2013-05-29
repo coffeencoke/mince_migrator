@@ -1,5 +1,3 @@
-require 'debugger'
-
 module MinceMigrator
   require_relative 'migrations/file'
   require_relative 'ran_migration'
@@ -56,9 +54,9 @@ module MinceMigrator
 
     def self.new_from_file(file)
       new(
-        klass: file.klass, 
-        name: file.name, 
-        relative_path: file.full_relative_path, 
+        klass: file.klass,
+        name: file.name,
+        relative_path: file.full_relative_path,
         path: file.full_path
       )
     end

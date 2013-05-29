@@ -9,7 +9,7 @@ module MinceMigrator
     end
 
     def self.patch
-      1
+      2
     end
   end
 
